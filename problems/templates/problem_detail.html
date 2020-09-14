@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+    problems
+{% endblock %}
+{% block content %}
+    这是题目内容
+    <h1>{{ problem.title}}</h1>
+    <p>{{ problem.description }}</p>
+    {% for category in problem.category.all %}
+    <small>{{ category }}</small>
+    {% endfor %}
+
+{% endblock %}

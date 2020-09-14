@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+    problems
+{% endblock %}
+{% block content %}
+    {% for problem in problems %}
+        <p>
+            <a href="{% url 'problem:problem_detail' problem.slug %}">{{ problem.title }}</a>
+        </p>
+    {% endfor %}
+
+{% endblock %}
