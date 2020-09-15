@@ -1,12 +1,23 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     登录
 {% endblock %}
+{% block head %}
+    <script type="text/javascript" src="{% static 'user/js.js' %}"></script>
+{% endblock %}
 {% block content %}
-    <form method="post" action="{% url 'user:login' %}">
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <input type="submit" name="submit">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.username.label }}
+        {{ form.username }}
+        {{ form.password.label }}
+        {{ form.password }}
+        {{ form.errors }}
+            {{ form.captcha.label }}
+            {{ form.captcha }}
+        {{ form.captcha.errors }}
+        <a href="{% url 'user:forgetpassword' %}">忘记密码</a>
+        <input type="submit" value="登录" onclick="show_captcha()">
     </form>
-
 {% endblock %}

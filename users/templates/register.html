@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     注册
 {% endblock %}
+{% block head %}
+    <script type="text/javascript" src="{% static 'user/js.js' %}"></script>
+{% endblock %}
 {% block content %}
-
+    <form method="post">
+        {% csrf_token %}
+        {% for field in register_form %}
+            {{ field.label }}{{ field }}
+            {{ field.errors }}
+        {% endfor %}
+        <input type="submit" value="提交">
+    </form>
 
 {% endblock %}

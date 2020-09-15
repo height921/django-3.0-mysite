@@ -8,8 +8,9 @@ import problems.views
 from . import views
 app_name = 'user'
 urlpatterns = [
-    path('', views.problems),
+    path('', views.user_info, name='user_info'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
-    path('findpassword/', views.find_password(), name='findpassword'),
+    path('forgetpassword/', views.forget_password, name='forgetpassword'),
+    path('resetpassword/<str:active_code>', views.reset_password, name='resetpassword'),
 ]

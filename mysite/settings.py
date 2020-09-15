@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'problems',
     'users',
     'status',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,8 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'acm5202020@163.com'
 EMAIL_HOST_PASSWORD = 'EIGTBMMTVPQAVOCW'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]

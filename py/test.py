@@ -44,9 +44,7 @@ soup = BeautifulSoup(html, 'lxml')
 
 class Test:
 
-    def __init__(self, page_start, page_end):
-        self.page_start = page_start
-        self.page_end = page_end
+    def __init__(self):
         self.login_url = 'http://acm.hdu.edu.cn/userloginex.php?action=login'  # 这是hdu的登陆界面地址
         self.login_data = {"username": "940657598",
                            "userpass": "guokun921",
@@ -99,6 +97,6 @@ class Test:
     # print("submit模块")
     #
 
-t =Test
+t =Test()
 t.login()
 t.submit()
