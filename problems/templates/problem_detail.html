@@ -9,5 +9,34 @@
     {% for category in problem.category.all %}
     <small>{{ category }}</small>
     {% endfor %}
+    <h5>代码提交</h5>
+            source = request.POST.get('source')
+        code = request.POST.get('code')
+        language = request.POST.get('language')
+        problem_id = request.POST.get('problem_id')
+        <form method="post" action="#" id="submit_form" >
+            {% csrf_token %}
+            来源<input type="text" name="source" >
+            语言<input type="text" name="language">
+            代码<textarea name="code">
 
+            </textarea>
+            <input type="hidden" name="problem_id" value="{{ problem.problem_id }}">
+            <button type="button" id="submit_id">提交</button>
+        </form>
+    <script>
+        $("#submit_id").click(function () {
+            $.ajax({
+                cache: false,
+                url: "{% url 'problem:submit_code' %}",
+                type: "POST",
+                dataType: 'json',
+                data:$('#submit_form').serialize(),
+                async: true,
+                success: function (data) {
+                    alert("成功");
+                }
+            });
+        })
+    </script>
 {% endblock %}

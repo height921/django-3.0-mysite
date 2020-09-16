@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}
+    problems
+{% endblock %}
+{% block content %}
+    <h5>代码提交</h5>
+            source = request.POST.get('source')
+        code = request.POST.get('code')
+        language = request.POST.get('language')
+        problem_id = request.POST.get('problem_id')
+        <form method="post" action="{% url 'problem:submit_code' %}">
+            {% csrf_token %}
+            来源<input type="text" name="source" >
+            语言<input type="text" name="language">
+            代码<textarea name="code">
+
+            </textarea>
+            <input type="hidden" name="problem_id" value="1000">
+            <input type="submit" value="提交">
+        </form>
+{% endblock %}
