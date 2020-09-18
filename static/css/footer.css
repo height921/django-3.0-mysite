@@ -1,0 +1,20 @@
+/*************************尾部*************************/
+
+#index_footer {
+    width: 100%;
+    background: url("../img/TFfooterBGImg.png");
+}
+
+#index_footer .container .row .row > ul > li > a {
+    color: #373737;
+    font-family: 幼圆;
+}
+
+#index_footer .container {
+    color: #373737;
+    font-family: 幼圆;
+}
+
+
+/*************************尾部*************************/
+

@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_mysql',
+        'NAME': 'acm_mysql',
         'USER': 'root',
         'PASSWORD': '12345678',
         'HOST': '127.0.0.1',
-        'POST': 3306,
+        'POST': '3306',
     }
 }
 
@@ -126,7 +126,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
 # 邮箱设置
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.163.com'
@@ -139,3 +138,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+# 验证码设计
+
+CAPTCHA_OUTPUT_FORMAT = '%(image)s %(text_field)s %(hidden_field)s '
+CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_null', # 没有样式
+    # 'captcha.helpers.noise_arcs', # 线
+    # 'captcha.helpers.noise_dots', # 点
+)
+# 图片中的文字为随机英文字母，如 mdsh
+# CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+ # 图片中的文字为数字表达式，如2+2=
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'

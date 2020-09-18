@@ -1,7 +1,296 @@
-{% extends 'base.html' %}
-{% block title %}
-    Home
+{% extends "base.html" %}
+
+{% block title %}首页{% endblock %}
+{% block head %}
+    {% load static %}
+    <script src="{% static 'js/footer.js' %}"></script>
+    <script src="{% static 'js/navigation.js' %}"></script>
+
 {% endblock %}
 {% block content %}
-    <p>这是主页</p>
+    <!-----------------------轮播图begin-------------------------->
+    <div>
+        <section id="index_carousel" class="carousel slide mt-3 mb-3" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#index_carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#index_carousel" data-slide-to="1"></li>
+                <li data-target="#index_carousel" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-sm-img="../static/img/slide_01_640x340.png"
+                     data-lg-img="../static/img/slide_01_2000x410.png"></div>
+                <div class="carousel-item" data-sm-img="../static/img/slide_02_640x340.png"
+                     data-lg-img="../static/img/slide_02_2000x410.png"></div>
+                <div class="carousel-item" data-sm-img="../static/img/slide_03_640x340.png"
+                     data-lg-img="../static/img/slide_03_2000x410.png"></div>
+            </div>
+            <a class="carousel-control-prev" href="#index_carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#index_carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </section>
+    </div>
+
+    <!-----------------------轮播图end-------------------------->
+
+
+    <!-----------------------友情链接begin-------------------------->
+    <section id="index_link">
+        <!--    标题-->
+        <div class="text-center mt-3 mb-3">
+            <h2><strong>友情链接</strong></h2>
+            <img src="../static/img/star.png" alt="">
+        </div>
+        <!--    内容-->
+        <div class="container mb-5">
+            <div class="row text-muted d-flex justify-content-around align-items-center mb-3">
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://poj.org/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/1.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>POJ</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://acm.zju.edu.cn/onlinejudge/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/2.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>ZOJ</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://livearchive.onlinejudge.org/index.php" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/3.png" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>ICPC</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://loj.ac/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/35.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>Libre</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://acm.timus.ru/" target="_blank">
+                            <div class="row  d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/5.ico" width="25" alt=""></div>
+                            <div class="row  d-flex justify-content-center align-items-center"><span>Timus</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://arena.topcoder.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/6.jpg" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>HUST</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://www.spoj.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/32.png" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>TopCoder</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://acm.hdu.edu.cn/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/8.png" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>HDU</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://www.e-olymp.com/en/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/33.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>E-olymp</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://www.51nod.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/31.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>51NOD</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://codeforces.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/11.png" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>CodeForces</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://nanti.jisuanke.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/34.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>计蒜客</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-muted d-flex justify-content-around align-items-center">
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://leetcode-cn.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/13.jpg" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>LeetCode</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://lightoj.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/14.gif" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>LightOJ</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://vjudge.net/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/15.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>Vjudge</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://ac.2333.moe/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/16.jpg" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>NBUT</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://acm.fzu.edu.cn/" target="_blank">
+                            <div class="row  d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/17.gif" width="25" alt=""></div>
+                            <div class="row  d-flex justify-content-center align-items-center"><span>FZU</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://www.hackerrank.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/30.png" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>HackerRank</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://atcoder.jp/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/29.png" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>AtCode</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://acdream.info/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/20.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>ACdream</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://www.codechef.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/21.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>CodeChef</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://open.kattis.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/24.ico" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>Kattis</span></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="https://hihocoder.com/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/25.jpg" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>HihoCoder</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-2 col-sm-4 col-6">
+                    <div>
+                        <a href="http://acm.hit.edu.cn/hoj/" target="_blank">
+                            <div class="row d-flex justify-content-center align-items-center"><img
+                                    src="../static/img/others_logo_img/26.png" width="25" alt=""></div>
+                            <div class="row d-flex justify-content-center align-items-center"><span>Hit</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-----------------------友情链接end-------------------------->
+
+
+
+
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
+    <!------------------------------------------------->
 {% endblock %}

@@ -1,3 +1,6 @@
+from captcha.helpers import captcha_image_url
+from captcha.models import CaptchaStore
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from random import Random
 from .forms import LoginForm, RegistrationForm, ForgetPasswordForm, ResetPassword
@@ -74,12 +77,8 @@ def login(request):
             if user and user.is_active:
                 auth.login(request, user)
                 return redirect(request.GET.get('from', reverse('home')))
-    else:
-        form = LoginForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'login.html', context)
+
+    return render(request, 'login.html', {})
 
 
 def logout(request):
@@ -90,7 +89,9 @@ def logout(request):
 def register(request):
     if request.method == 'POST':
         register_form = RegistrationForm(request.POST)
+        print('进入post')
         if register_form.is_valid():
+            print('进入form')
             username = register_form.cleaned_data['username']
             password = register_form.cleaned_data['password1']
             email = register_form.cleaned_data['email']
@@ -99,12 +100,49 @@ def register(request):
             user = auth.authenticate(username=username, password=password)
             auth.login(request, user)
             return redirect(request.GET.get('from', reverse('home')))
-    else:
-        register_form = RegistrationForm()
+
+    key = CaptchaStore.generate_key()
+    image_url = captcha_image_url(key)
 
     context = {
-        'register_form': register_form,
+        'key': key,
+        'image_url': image_url,
     }
     return render(request, 'register.html', context)
 
 
+def terms(request):
+    '''
+    服务条款
+    :param request:
+    :return:
+    '''
+    return render(request, 'terms.html',{})
+
+
+def check_user(request):
+    res = {}
+    username = request.GET.get('username')
+    if username:
+        if User.objects.filter(username=username).exist():
+            res = {"code": 100, "msg": "用户名存在，请重新输入"}
+        else:
+            res = {"code": 101}
+    else:
+        res = {"code": 102, "msg": "请输入用户名"}
+
+    return JsonResponse(res)
+
+
+def check_email(request):
+    res = {}
+    email = request.GET.get('email')
+    if email:
+        if User.objects.filter(email=email).exist():
+            res = {"code": 100, "msg": "邮箱以注册，请重新输入"}
+        else:
+            res = {"code": 101}
+    else:
+        res = {"code": 102, "msg": "请输入邮箱"}
+
+    return JsonResponse(res)

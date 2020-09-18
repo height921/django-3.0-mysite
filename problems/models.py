@@ -6,6 +6,7 @@ from uuslug import slugify
 
 class Category(models.Model):
     title = models.CharField(max_length=255, verbose_name='类型')
+    content = models.TextField(verbose_name='介绍', default='')
     slug = models.SlugField(editable=False)
 
     def __str__(self):
@@ -38,3 +39,8 @@ class Problem(models.Model):
         self.slug = slugify(str(self.source)+str(self.problem_id))
         super(Problem, self).save(*args, **kwargs)
 
+
+class SubmitAccount(models.Model):
+    source = models.TextField(max_length=50, verbose_name='来源')
+    account_id = models.TextField(max_length=30, verbose_name='账号')
+    account_password = models.TextField(max_length=30, verbose_name='密码')

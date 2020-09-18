@@ -13,4 +13,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('forgetpassword/', views.forget_password, name='forgetpassword'),
     path('resetpassword/<str:active_code>', views.reset_password, name='resetpassword'),
+    path('terms/', views.terms, name='terms'),
+    path('check_email/', views.check_email, name='check_email'),
+    path('check_user/', views.check_user, name='check_user'),
 ]

@@ -1,0 +1,15 @@
+/*通用样式begin*/
+body {
+    color: #000;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+/*通用样式end*/
+

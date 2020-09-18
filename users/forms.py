@@ -71,7 +71,7 @@ class LoginForm(forms.Form):
                                widget=forms.PasswordInput(attrs={
                                    'placeholder': '请输入密码',
                                }))
-    captcha = CaptchaField(error_messages={'invalid': '验证码错误'})
+    # captcha = CaptchaField(error_messages={'invalid': '验证码错误'})
 
     def clean(self):
         username = self.cleaned_data['username']

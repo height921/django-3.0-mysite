@@ -1,0 +1,34 @@
+<!-----------------------尾部begin------------------------------>
+{% load static %}
+<footer id="index_footer">
+    <div class="container">
+        <div class="row pt-2 pb-1 d-flex justify-content-between align-items-center">
+            <div class="col-lg-4 d-none d-lg-block">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <ul class="offset-lg-2 col-lg-4">
+                        <li><a href="{% url 'about' %}">关于我们</a></li>
+                        <li><a href="">课程介绍</a></li>
+                        <li><a href="">热门课程</a></li>
+                    </ul>
+                    <ul class="col-lg-4">
+                        <li><a href="">名师授课</a></li>
+                        <li><a href="">课堂互动</a></li>
+                        <li><a href="">联系我们</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-6 col-lg-5 d-none d-md-block text-center">
+                <h6>公司地址:上海市松江区松江大学城</h6>
+                <h6>联系电话:0598-88888888</h6>
+                <h6>地址邮箱: 123456@123.com</h6>
+            </div>
+            <div class="col-lg-3 text-center d-sm-block d-md-none d-lg-block">
+                <h6>联系我们:</h6>
+                <a href=""><img src="{% static 'img/weixin-h.png' %}" width="50" alt=""></a>
+                <a href=""><img src="{% static 'img/xinlang-h.png' %}" width="50" alt=""></a>
+                <a href=""><img src="" width="50" alt=""></a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-----------------------尾部end-------------------------------->
