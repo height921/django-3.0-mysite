@@ -1,0 +1,529 @@
+/***************level 0 begin*********************/
+.btn-level0 {
+  color: #9E9E9E;
+  background-color: #F5FFC2;
+  border-color: #FCFCFC;
+}
+
+.btn-level0:hover,
+.btn-level0:focus,
+.btn-level0:active,
+.btn-level0.active,
+.open .dropdown-toggle.btn-level0 {
+  color: #9E9E9E;
+  background-color: #D2FC00;
+  border-color: #FCFCFC;
+}
+
+.btn-level0:active,
+.btn-level0.active,
+.open .dropdown-toggle.btn-level0 {
+  background-image: none;
+}
+
+.btn-level0.disabled,
+.btn-level0[disabled],
+fieldset[disabled] .btn-level0,
+.btn-level0.disabled:hover,
+.btn-level0[disabled]:hover,
+fieldset[disabled] .btn-level0:hover,
+.btn-level0.disabled:focus,
+.btn-level0[disabled]:focus,
+fieldset[disabled] .btn-level0:focus,
+.btn-level0.disabled:active,
+.btn-level0[disabled]:active,
+fieldset[disabled] .btn-level0:active,
+.btn-level0.disabled.active,
+.btn-level0[disabled].active,
+fieldset[disabled] .btn-level0.active {
+  background-color: #F5FFC2;
+  border-color: #FCFCFC;
+}
+
+.btn-level0 .badge {
+  color: #F5FFC2;
+  background-color: #9E9E9E;
+}
+/***************level 0 end*********************/
+
+
+/***************level 1 start*********************/
+.btn-level1 {
+  color: #787878;
+  background-color: #E7FF6E;
+  border-color: #FCFCFC;
+}
+
+.btn-level1:hover,
+.btn-level1:focus,
+.btn-level1:active,
+.btn-level1.active,
+.open .dropdown-toggle.btn-level1 {
+  color: #787878;
+  background-color: #D2FC00;
+  border-color: #FCFCFC;
+}
+
+.btn-level1:active,
+.btn-level1.active,
+.open .dropdown-toggle.btn-level1 {
+  background-image: none;
+}
+
+.btn-level1.disabled,
+.btn-level1[disabled],
+fieldset[disabled] .btn-level1,
+.btn-level1.disabled:hover,
+.btn-level1[disabled]:hover,
+fieldset[disabled] .btn-level1:hover,
+.btn-level1.disabled:focus,
+.btn-level1[disabled]:focus,
+fieldset[disabled] .btn-level1:focus,
+.btn-level1.disabled:active,
+.btn-level1[disabled]:active,
+fieldset[disabled] .btn-level1:active,
+.btn-level1.disabled.active,
+.btn-level1[disabled].active,
+fieldset[disabled] .btn-level1.active {
+  background-color: #E7FF6E;
+  border-color: #FCFCFC;
+}
+
+.btn-level1 .badge {
+  color: #E7FF6E;
+  background-color: #787878;
+}
+/***************level 1 end*********************/
+
+/***************level 2 start*********************/
+.btn-level2 {
+  color: #474747;
+  background-color: #E7FF6E;
+  border-color: #FCFCFC;
+}
+
+.btn-level2:hover,
+.btn-level2:focus,
+.btn-level2:active,
+.btn-level2.active,
+.open .dropdown-toggle.btn-level2 {
+  color: #474747;
+  background-color: #9BFF21;
+  border-color: #FCFCFC;
+}
+
+.btn-level2:active,
+.btn-level2.active,
+.open .dropdown-toggle.btn-level2 {
+  background-image: none;
+}
+
+.btn-level2.disabled,
+.btn-level2[disabled],
+fieldset[disabled] .btn-level2,
+.btn-level2.disabled:hover,
+.btn-level2[disabled]:hover,
+fieldset[disabled] .btn-level2:hover,
+.btn-level2.disabled:focus,
+.btn-level2[disabled]:focus,
+fieldset[disabled] .btn-level2:focus,
+.btn-level2.disabled:active,
+.btn-level2[disabled]:active,
+fieldset[disabled] .btn-level2:active,
+.btn-level2.disabled.active,
+.btn-level2[disabled].active,
+fieldset[disabled] .btn-level2.active {
+  background-color: #E7FF6E;
+  border-color: #FCFCFC;
+}
+
+.btn-level2 .badge {
+  color: #E7FF6E;
+  background-color: #474747;
+}
+/***************level 2 end*********************/
+
+/***************level 3 start*********************/
+.btn-level3 {
+  color: #474747;
+  background-color: #DBFF29;
+  border-color: #FCFCFC;
+}
+
+.btn-level3:hover,
+.btn-level3:focus,
+.btn-level3:active,
+.btn-level3.active,
+.open .dropdown-toggle.btn-level3 {
+  color: #474747;
+  background-color: #9FF23A;
+  border-color: #FCFCFC;
+}
+
+.btn-level3:active,
+.btn-level3.active,
+.open .dropdown-toggle.btn-level3 {
+  background-image: none;
+}
+
+.btn-level3.disabled,
+.btn-level3[disabled],
+fieldset[disabled] .btn-level3,
+.btn-level3.disabled:hover,
+.btn-level3[disabled]:hover,
+fieldset[disabled] .btn-level3:hover,
+.btn-level3.disabled:focus,
+.btn-level3[disabled]:focus,
+fieldset[disabled] .btn-level3:focus,
+.btn-level3.disabled:active,
+.btn-level3[disabled]:active,
+fieldset[disabled] .btn-level3:active,
+.btn-level3.disabled.active,
+.btn-level3[disabled].active,
+fieldset[disabled] .btn-level3.active {
+  background-color: #DBFF29;
+  border-color: #FCFCFC;
+}
+
+.btn-level3 .badge {
+  color: #DBFF29;
+  background-color: #474747;
+}
+/***************level 3 end*********************/
+
+/***************level 4 start*********************/
+.btn-level4 {
+  color: #474747;
+  background-color: #D3F527;
+  border-color: #FCFCFC;
+}
+
+.btn-level4:hover,
+.btn-level4:focus,
+.btn-level4:active,
+.btn-level4.active,
+.open .dropdown-toggle.btn-level4 {
+  color: #474747;
+  background-color: #97E637;
+  border-color: #FCFCFC;
+}
+
+.btn-level4:active,
+.btn-level4.active,
+.open .dropdown-toggle.btn-level4 {
+  background-image: none;
+}
+
+.btn-level4.disabled,
+.btn-level4[disabled],
+fieldset[disabled] .btn-level4,
+.btn-level4.disabled:hover,
+.btn-level4[disabled]:hover,
+fieldset[disabled] .btn-level4:hover,
+.btn-level4.disabled:focus,
+.btn-level4[disabled]:focus,
+fieldset[disabled] .btn-level4:focus,
+.btn-level4.disabled:active,
+.btn-level4[disabled]:active,
+fieldset[disabled] .btn-level4:active,
+.btn-level4.disabled.active,
+.btn-level4[disabled].active,
+fieldset[disabled] .btn-level4.active {
+  background-color: #D3F527;
+  border-color: #FCFCFC;
+}
+
+.btn-level4 .badge {
+  color: #D3F527;
+  background-color: #474747;
+}
+/***************level 4 end*********************/
+
+/***************level 5 start*********************/
+.btn-level5 {
+  color: #2E2E2E;
+  background-color: #ACF233;
+  border-color: #FCFCFC;
+}
+
+.btn-level5:hover,
+.btn-level5:focus,
+.btn-level5:active,
+.btn-level5.active,
+.open .dropdown-toggle.btn-level5 {
+  color: #2E2E2E;
+  background-color: #D0E300;
+  border-color: #FCFCFC;
+}
+
+.btn-level5:active,
+.btn-level5.active,
+.open .dropdown-toggle.btn-level5 {
+  background-image: none;
+}
+
+.btn-level5.disabled,
+.btn-level5[disabled],
+fieldset[disabled] .btn-level5,
+.btn-level5.disabled:hover,
+.btn-level5[disabled]:hover,
+fieldset[disabled] .btn-level5:hover,
+.btn-level5.disabled:focus,
+.btn-level5[disabled]:focus,
+fieldset[disabled] .btn-level5:focus,
+.btn-level5.disabled:active,
+.btn-level5[disabled]:active,
+fieldset[disabled] .btn-level5:active,
+.btn-level5.disabled.active,
+.btn-level5[disabled].active,
+fieldset[disabled] .btn-level5.active {
+  background-color: #ACF233;
+  border-color: #FCFCFC;
+}
+
+.btn-level5 .badge {
+  color: #ACF233;
+  background-color: #2E2E2E;
+}
+
+/***************level 5 end*********************/
+
+/***************level 6 start*********************/
+.btn-level6 {
+  color: #FFFFFF;
+  background-color: #85D92B;
+  border-color: #FCFCFC;
+}
+
+.btn-level6:hover,
+.btn-level6:focus,
+.btn-level6:active,
+.btn-level6.active,
+.open .dropdown-toggle.btn-level6 {
+  color: #FFFFFF;
+  background-color: #EDDD00;
+  border-color: #FCFCFC;
+}
+
+.btn-level6:active,
+.btn-level6.active,
+.open .dropdown-toggle.btn-level6 {
+  background-image: none;
+}
+
+.btn-level6.disabled,
+.btn-level6[disabled],
+fieldset[disabled] .btn-level6,
+.btn-level6.disabled:hover,
+.btn-level6[disabled]:hover,
+fieldset[disabled] .btn-level6:hover,
+.btn-level6.disabled:focus,
+.btn-level6[disabled]:focus,
+fieldset[disabled] .btn-level6:focus,
+.btn-level6.disabled:active,
+.btn-level6[disabled]:active,
+fieldset[disabled] .btn-level6:active,
+.btn-level6.disabled.active,
+.btn-level6[disabled].active,
+fieldset[disabled] .btn-level6.active {
+  background-color: #85D92B;
+  border-color: #FCFCFC;
+}
+
+.btn-level6 .badge {
+  color: #85D92B;
+  background-color: #FFFFFF;
+}
+/***************level 6 end*********************/
+
+/***************level 7 start*********************/
+.btn-level7 {
+  color: #FFFFFF;
+  background-color: #77C425;
+  border-color: #FCFCFC;
+}
+
+.btn-level7:hover,
+.btn-level7:focus,
+.btn-level7:active,
+.btn-level7.active,
+.open .dropdown-toggle.btn-level7 {
+  color: #FFFFFF;
+  background-color: #EDDD00;
+  border-color: #FCFCFC;
+}
+
+.btn-level7:active,
+.btn-level7.active,
+.open .dropdown-toggle.btn-level7 {
+  background-image: none;
+}
+
+.btn-level7.disabled,
+.btn-level7[disabled],
+fieldset[disabled] .btn-level7,
+.btn-level7.disabled:hover,
+.btn-level7[disabled]:hover,
+fieldset[disabled] .btn-level7:hover,
+.btn-level7.disabled:focus,
+.btn-level7[disabled]:focus,
+fieldset[disabled] .btn-level7:focus,
+.btn-level7.disabled:active,
+.btn-level7[disabled]:active,
+fieldset[disabled] .btn-level7:active,
+.btn-level7.disabled.active,
+.btn-level7[disabled].active,
+fieldset[disabled] .btn-level7.active {
+  background-color: #77C425;
+  border-color: #FCFCFC;
+}
+
+.btn-level7 .badge {
+  color: #77C425;
+  background-color: #FFFFFF;
+}
+/***************level 7 end*********************/
+
+/***************level 8 start*********************/
+.btn-level8 {
+  color: #FFFFFF;
+  background-color: #2AB040;
+  border-color: #FCFCFC;
+}
+
+.btn-level8:hover,
+.btn-level8:focus,
+.btn-level8:active,
+.btn-level8.active,
+.open .dropdown-toggle.btn-level8 {
+  color: #FFFFFF;
+  background-color: #EDDD00;
+  border-color: #FCFCFC;
+}
+
+.btn-level8:active,
+.btn-level8.active,
+.open .dropdown-toggle.btn-level8 {
+  background-image: none;
+}
+
+.btn-level8.disabled,
+.btn-level8[disabled],
+fieldset[disabled] .btn-level8,
+.btn-level8.disabled:hover,
+.btn-level8[disabled]:hover,
+fieldset[disabled] .btn-level8:hover,
+.btn-level8.disabled:focus,
+.btn-level8[disabled]:focus,
+fieldset[disabled] .btn-level8:focus,
+.btn-level8.disabled:active,
+.btn-level8[disabled]:active,
+fieldset[disabled] .btn-level8:active,
+.btn-level8.disabled.active,
+.btn-level8[disabled].active,
+fieldset[disabled] .btn-level8.active {
+  background-color: #2AB040;
+  border-color: #FCFCFC;
+}
+
+.btn-level8 .badge {
+  color: #2AB040;
+  background-color: #FFFFFF;
+}
+/***************level 8 end*********************/
+
+/***************level 9 start*********************/
+.btn-level9 {
+  color: #FFFFFF;
+  background-color: #248C36;
+  border-color: #FCFCFC;
+}
+
+.btn-level9:hover,
+.btn-level9:focus,
+.btn-level9:active,
+.btn-level9.active,
+.open .dropdown-toggle.btn-level9 {
+  color: #FFFFFF;
+  background-color: #EDDD00;
+  border-color: #FCFCFC;
+}
+
+.btn-level9:active,
+.btn-level9.active,
+.open .dropdown-toggle.btn-level9 {
+  background-image: none;
+}
+
+.btn-level9.disabled,
+.btn-level9[disabled],
+fieldset[disabled] .btn-level9,
+.btn-level9.disabled:hover,
+.btn-level9[disabled]:hover,
+fieldset[disabled] .btn-level9:hover,
+.btn-level9.disabled:focus,
+.btn-level9[disabled]:focus,
+fieldset[disabled] .btn-level9:focus,
+.btn-level9.disabled:active,
+.btn-level9[disabled]:active,
+fieldset[disabled] .btn-level9:active,
+.btn-level9.disabled.active,
+.btn-level9[disabled].active,
+fieldset[disabled] .btn-level9.active {
+  background-color: #248C36;
+  border-color: #FCFCFC;
+}
+
+.btn-level9 .badge {
+  color: #248C36;
+  background-color: #FFFFFF;
+}
+/***************level 9 end*********************/
+
+/***************tag begin*****************************/
+.btn-tag {
+  color: #34008F;
+  background-color: #FFFFFF;
+  border-color: #34008F;
+}
+
+.btn-tag:hover,
+.btn-tag:focus,
+.btn-tag:active,
+.btn-tag.active,
+.open .dropdown-toggle.btn-tag {
+  color: #34008F;
+  background-color: #FFFFFF;
+  border-color: #34008F;
+}
+
+.btn-tag:active,
+.btn-tag.active,
+.open .dropdown-toggle.btn-tag {
+  background-image: none;
+}
+
+.btn-tag.disabled,
+.btn-tag[disabled],
+fieldset[disabled] .btn-tag,
+.btn-tag.disabled:hover,
+.btn-tag[disabled]:hover,
+fieldset[disabled] .btn-tag:hover,
+.btn-tag.disabled:focus,
+.btn-tag[disabled]:focus,
+fieldset[disabled] .btn-tag:focus,
+.btn-tag.disabled:active,
+.btn-tag[disabled]:active,
+fieldset[disabled] .btn-tag:active,
+.btn-tag.disabled.active,
+.btn-tag[disabled].active,
+fieldset[disabled] .btn-tag.active {
+  background-color: #FFFFFF;
+  border-color: #34008F;
+}
+
+.btn-tag .badge {
+  color: #FFFFFF;
+  background-color: #34008F;
+}
+/***************tag end*****************************/

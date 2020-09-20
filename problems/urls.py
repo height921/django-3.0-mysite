@@ -8,6 +8,6 @@ app_name = 'problem'
 urlpatterns = [
     path('', views.problems, name='problem_list'),
     path('<slug:slug>/', views.problem_detail, name='problem_detail'),
-    # path('submitcode/', views.submit_code, name='submit_code'),
+    # path('submit_code/', views.submit_code, name='submit_code'),
     path('category/<slug:slug>', views.problem_category, name='problem_category'),
 ]

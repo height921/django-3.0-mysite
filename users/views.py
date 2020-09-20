@@ -123,8 +123,10 @@ def terms(request):
 def check_user(request):
     res = {}
     username = request.GET.get('username')
+    print(username)
     if username:
-        if User.objects.filter(username=username).exist():
+        if User.objects.filter(username=username).exists():
+            print('用户名存在')
             res = {"code": 100, "msg": "用户名存在，请重新输入"}
         else:
             res = {"code": 101}
@@ -138,8 +140,8 @@ def check_email(request):
     res = {}
     email = request.GET.get('email')
     if email:
-        if User.objects.filter(email=email).exist():
-            res = {"code": 100, "msg": "邮箱以注册，请重新输入"}
+        if User.objects.filter(email=email).exists():
+            res = {"code": 100, "msg": "该邮箱已经注册，请重新输入"}
         else:
             res = {"code": 101}
     else:

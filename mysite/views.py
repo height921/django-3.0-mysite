@@ -9,4 +9,8 @@ def home(request):
 
 
 def about(request):
-    return render(request,'about.html', context={})
+    return render(request, 'about.html', context={})
+
+
+def contact_us(request):
+    return render(request, 'contact_us.html', context={})

@@ -1,9 +1,10 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Problem, Category
 from .utils.submit_code import HDUSubmit, hdu_get_result, main_function
 from status.models import Status
 from django.shortcuts import get_object_or_404
+from uuslug import slugify
 
 # Create your views here.
 
@@ -22,6 +23,7 @@ def problems(request):
 
 
 def problem_detail(request, slug):
+    print("进入detail")
     '''
     题目的详细内容,
     post请求是返回答题结果
@@ -36,12 +38,15 @@ def problem_detail(request, slug):
         }
         return render(request, 'problem_detail.html', context=context)
     else:
+        print("进入了post")
         source = request.POST.get('source', '')
         code = request.POST.get('code', '')
         language = request.POST.get('language', '')
         problem_id = request.POST.get('problem_id', '')
-
+        print(source, code)
         result = main_function(source, code, language, problem_id)
+        print("result")
+        print(result)
         if isinstance(result, str):
             return JsonResponse({"status": "submit failed"})
         else:
@@ -60,6 +65,41 @@ def problem_detail(request, slug):
                 "result": status.result
             }
             return JsonResponse(data=data)
+
+
+# def submit_code(request):
+#     if request.method == 'POST':
+#         print("进入了post")
+#         source = request.POST.get('source', '')
+#         code = request.POST.get('code', '')
+#         language = request.POST.get('language', '')
+#         problem_id = request.POST.get('problem_id', '')
+#         slug = slugify(source+problem_id)
+#         print(source, code)
+#         result = main_function(source, code, language, problem_id)
+#         print("result")
+#         print(result)
+#         if isinstance(result, str):
+#             return JsonResponse({"status": "submit failed"})
+#         else:
+#             print("进入保存结果的地方")
+#             status = Status.objects.create(result=result.get('result'),
+#                                            time=result.get('time'),
+#                                            memory=result.get('memory'),
+#                                            code_length=result.get('code_length'),
+#                                            lang=result.get('lang'),
+#                                            user=request.user,
+#                                            problem=get_object_or_404(Problem, slug=slug),
+#                                            )
+#             status.save()
+#             print("保存结果成功")
+#             data = {
+#                 "status": "success",
+#                 "result": status.result
+#             }
+#             return JsonResponse(data=data)
+#     else:
+#         return redirect('home')
 
 
 def problem_category(request, slug):

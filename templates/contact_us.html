@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}关于我们{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/contact_us.css' %}">
+{% endblock %}
+{% block content %}
+    <section id="about_us" class="ml-5 pl-5">
+        <div class="container">
+            <div id="demo" class="carousel slide m-5 p-3" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="carousel-caption">
+                            <p>You can follow our public WeChat account.</p>
+                            <img src="/static/img/WeChat_Official_Account.png" class="img-fluid">
+                            <div id="image-caption">微信公众号</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-caption">
+                            <p>You can follow our Bilibili</p>
+                            <img src="/static/img/WeChat_Official_Account.png" class="img-fluid">
+                            <div id="image-caption">Bilibili</div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-caption">
+                            <p>You can Email us</p>
+                            <p class="width: 12rem;margin-top: 2rem">123456@163.com</p>
+                            {#<img src="https://i.imgur.com/jQWThIn.jpg" class="img-fluid">#}
+                            <div id="image-caption">Email</div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#demo" data-slide="prev"> <i class='fas fa-arrow-left'></i> </a>
+                <a
+                        class="carousel-control-next" href="#demo" data-slide="next"> <i class='fas fa-arrow-right'></i>
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

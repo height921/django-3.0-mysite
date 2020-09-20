@@ -27,4 +27,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('problems/', include(problems.urls)),
     path('captcha/', include('captcha.urls')),
+    path('contact_us/', views.contact_us, name='contact_us'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

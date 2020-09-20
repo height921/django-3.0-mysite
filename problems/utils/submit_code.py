@@ -14,9 +14,11 @@ from urllib.request import urlopen
 import re
 from problems.models import SubmitAccount
 
+
 class SourceList():
     HDU = 'HDU'
     POJ = 'POJ'
+
 
 class HDUSubmit(object):
 
@@ -56,20 +58,20 @@ class HDUSubmit(object):
         self.cookie_jar = requests.cookies.RequestsCookieJar()
 
     def login(self):
-        if not self.is_login_in():
-            params = {
-                "username": self.id,
-                "userpass": self.password,
-                "login": "Sign In"
-            }
-            r = self.session.request(
-                'POST',
-                self.log_url,
-                data=params,
-                cookies=self.cookie_jar)
+        # if not self.is_login_in():
+        params = {
+            "username": self.id,
+            "userpass": self.password,
+            "login": "Sign In"
+        }
+        r = self.session.request(
+            'POST',
+            self.log_url,
+            data=params,
+            cookies=self.cookie_jar)
 
-            print('log status_code:', r.status_code)
-            return r
+        print('log status_code:', r.status_code)
+        return r
 
     def is_login_in(self):
         r = self.session.get("http://acm.hdu.edu.cn/control_panel.php")
@@ -165,7 +167,7 @@ def get_account(source):
     :param source: 来源
     :return: 账号，密码
     '''
-    index = randint(0, 5)
+    index = randint(0, 1)
     robot = SubmitAccount.objects.filter(source=source)[index]
     return robot.account_id, robot.account_password
 
@@ -180,9 +182,11 @@ def main_function(source, code, language, problem_id):
     :return: 返回查找结果
     '''
     account_id, account_password = get_account(source)
+    # account_id = '940657598'
+    # account_password = 'guokun921'
     if source == SourceList.HDU:
         robot = HDUSubmit(account_id, account_password)
-        run_id = HDUSubmit.submit(problem_id, code, language)
+        run_id = robot.submit(problem_id, code, language)
         return hdu_get_result(run_id=run_id, hdu_id=account_id)
     elif source == SourceList.POJ:
         pass

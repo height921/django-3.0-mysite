@@ -1,12 +1,327 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     problems
 {% endblock %}
+{% block head %}
+{#    <link rel="stylesheet" href="{% static 'problems/css/problems_list.css' %}">#}
+    <link rel="stylesheet" href="{% static 'problems/css/self_button.css' %}">
+{% endblock %}
 {% block content %}
-    {% for problem in problems %}
-        <p>
-            <a href="{% url 'problem:problem_detail' problem.slug %}">{{ problem.title }}</a>
-        </p>
-    {% endfor %}
+   <!-- https://bbbootstrap.com/snippets/forum-question-and-answer-listings-pagination-68897148 -->
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <!-- 搜索框begin -->
+            <div class="col-5 p-0 ml-5 mb-3 d-flex flex-wrap justify-content-between align-items-center">
+                <input type="text" class="form-control" placeholder="搜索题目 「名称、内容或编号」">
+            </div>
+            <!-- 搜索框end -->
+
+            <!-- 下拉列表begin-->
+            <!-- 难度begin -->
+            <div class="btn-group offset-3 col-1 align-items-center">
+                <button type="button" class="btn btn-sm btn-tag dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    难度
+                </button>
+                <div class="dropdown-menu" style="min-width: 0px">
+                    <a class="dropdown-item" href="#"
+                       style=" color: #9E9E9E;background-color: #F5FFC2;border-color: #FCFCFC;">level 0</a>
+                    <a class="dropdown-item" href="#"
+                       style="color: #787878;background-color: #E7FF6E;border-color: #FCFCFC;">level 1</a>
+                    <a class="dropdown-item" href="#"
+                       style="color: #474747;background-color: #E7FF6E;border-color: #FCFCFC;">level 2</a>
+                    <a class="dropdown-item" href="#"
+                       style="  color: #474747;background-color: #DBFF29;border-color: #FCFCFC;">level 3</a>
+                    <a class="dropdown-item" href="#"
+                       style="color: #474747;background-color: #D3F527;border-color: #FCFCFC;">level 4</a>
+                    <a class="dropdown-item" href="#"
+                       style="color: #2E2E2E;background-color: #ACF233;border-color: #FCFCFC;">level 5</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#"
+                       style="color: #FFFFFF;background-color: #85D92B;border-color: #FCFCFC;">level 6</a>
+                    <a class="dropdown-item" href="#"
+                       style="color: #FFFFFF;background-color: #77C425;border-color: #FCFCFC;">level 7</a>
+                    <a class="dropdown-item" href="#"
+                       style="color: #FFFFFF;background-color: #2AB040;border-color: #FCFCFC;">level 8</a>
+                    <a class="dropdown-item" href="#"
+                       style="color: #FFFFFF;background-color: #248C36;border-color: #FCFCFC;">level 9</a>
+                </div>
+            </div>
+            <!-- 难度end -->
+
+            <!-- tag begin-->
+            <div class="btn-group col-1 align-items-center">
+                <button type="button" class="btn btn-sm btn-tag dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    标签
+                </button>
+                <div class="dropdown-menu" style="min-width: 0px">
+                    <a class="dropdown-item" href="#">二叉树</a>
+                    <a class="dropdown-item" href="#">动态规划</a>
+                    <a class="dropdown-item" href="#">BFS</a>
+                    <a class="dropdown-item" href="#">DFS</a>
+                    <a class="dropdown-item" href="#">回溯算法</a>
+                    <a class="dropdown-item" href="#">双指针</a>
+                    <a class="dropdown-item" href="#">分治算法</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" style="color: #3192b2;background-color: #edfbff">更多标签</a>
+                </div>
+            </div>
+            <!-- tag end-->
+
+            <!-- 状态 begin-->
+            <div class="btn-group col-1 align-items-center">
+                <button type="button" class="btn btn-sm btn-tag dropdown-toggle"
+                        data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    状态
+                </button>
+                <div class="dropdown-menu" style="min-width: 0px">
+                    <a class="dropdown-item" href="#">所有题目</a>
+                    <a class="dropdown-item" href="#">已通过</a>
+                    <a class="dropdown-item" href="#">未通过</a>
+                </div>
+            </div>
+            <!-- 状态 end-->
+            <!-- 下拉列表end-->
+        </div>
+        <!-- 题目列表begin -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-1 text-muted text-center">状态</div>
+                    <div class="col-1 text-muted text-center">编号</div>
+                    <div class="col-4 text-muted">题名</div>
+                    <div class="col-1 text-muted text-center">来源</div>
+                    <div class="col-1 text-muted text-center">解题数</div>
+                    <div class="col-1 text-muted text-center">通过率</div>
+                    <div class="col-2 text-muted text-center">标签</div>
+                    <div class="col-1 text-muted text-center">难度等级</div>
+                </div>
+            </div>
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center">
+                    <!--fa-check是 √    fa-question是 ?-->
+                    <i class="fa fa-check fa-fw" style="color: #ACF233"></i>
+                </div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level0" href="#" role="button">level 0</a>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center">
+                    <i class="fa fa-check fa-fw" style="color: #ACF233"></i>
+                </div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level1" href="#" role="button">level 1</a>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center"><i class="fa fa-question fa-fw" style="color: #0062cc"></i>
+                </div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level2" href="#" role="button">level 2</a>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center"><i class="fa fa-check fa-fw" style="color: #ACF233"></i></div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level3" href="#" role="button">level 3</a>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center"><i class="fa fa-check fa-fw" style="color: #ACF233"></i></div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level4" href="#" role="button">level 4</a>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center"><i class="fa fa-check fa-fw" style="color: #ACF233"></i></div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level5" href="#" role="button">level 5</a>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center"><i class="fa fa-check fa-fw" style="color: #ACF233"></i></div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level6" href="#" role="button">level 6</a>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center"><i class="fa fa-check fa-fw" style="color: #ACF233"></i></div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level7" href="#" role="button">level 7</a>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center"><i class="fa fa-check fa-fw" style="color: #ACF233"></i></div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level8" href="#" role="button">level 8</a>
+                </div>
+            </div>
+            <hr class="m-0">
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center"><i class="fa fa-check fa-fw" style="color: #ACF233"></i></div>
+                <div class="col-1 text-muted text-center">1000</div>
+                <div class="col-4 text-muted"><a href="#">A+B Problem</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">290481</div>
+                <div class="col-1 text-muted text-center">29.81%</div>
+                <div class="col-2 text-muted text-center">
+                    <a class="btn btn-sm btn-primary" href="#" role="button">二叉树</a>
+                    <a class="btn btn-sm btn-primary" href="#" role="button">动态规划</a>
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level9" href="#" role="button">level 9</a>
+                </div>
+            </div>
+        </div>
+        <!-- 题目列表end -->
+
+        <!-- 分页器begin -->
+        <nav>
+            <ul class="pagination mb-5">
+                <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" data-abc="true">«</a></li>
+                <li class="page-item active"><a class="page-link" href="javascript:void(0)" data-abc="true">1</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)" data-abc="true">2</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)" data-abc="true">3</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)" data-abc="true">»</a></li>
+            </ul>
+        </nav>
+        <!-- 分页器end -->
+    </div>
+
 
 {% endblock %}

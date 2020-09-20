@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     problems
+{% endblock %}
+{% block head %}
+{#    <script type="text/javascript" src="{% static 'problems/problems_js.js' %}"></script>#}
 {% endblock %}
 {% block content %}
     这是题目内容
     <h1>{{ problem.title}}</h1>
+    <span id="problem_slug" style="display: none">{{ problem.slug }}</span>
     <p>{{ problem.description }}</p>
     {% for category in problem.category.all %}
     <small>{{ category }}</small>
@@ -27,4 +32,26 @@
                 <button type="button" id="submit_btn">提交</button>
 
 
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+    // 提交按钮
+$("#submit_btn").click(function () {
+    $.ajax({
+        cache: false,
+        url: "{% url 'problem:problem_detail' problem.slug %}",
+        type: "POST",
+        dataType: 'json',
+        data:$('#submit_form').serialize(),
+        async: true,
+        success: function (data) {
+            if(data.status=='success'){
+            alert(data.result);
+            }else {
+                alert("提交失败");
+            }
+        }
+    });
+});
+</script>
 {% endblock %}

@@ -25,19 +25,23 @@ $('#name').blur(function () {
         if(check_name()){
             var username = $("#name").val();
             $.ajax({
-                cache:false,
                 type:"GET",
-                url: "{% url 'user:check_user' %}",
+                url: "/user/register/check_user",
                 dataType: 'json',
+                async:true,
                 data:{
                     "username":username,
                     "csrfmiddlewaretoken":"{{ csrf_token }}",
                 },
                 success:function (data) {
-                        if(data["code"]==100){
+                        if(data["code"]==100||data["code"]==102){
                             error_name = true;
+                            $("#name").next().html(data["msg"]);
+                            $("#name").next().show();
+                        }else {
+                            error_name=false;
+                            $("#name").next().hide();
                         }
-                        $("#name").next().html(data["msg"]);
                 },
                 error:function (error) {
                     //请求失败
@@ -52,17 +56,23 @@ $('#email').blur(function () {
             $.ajax({
                 cache:false,
                 type:"GET",
-                url: '{% url "user:check_email" %}',
+                url: '/user/register/check_email',
                 dataType: 'json',
+                async:true,
                 data:{
                     "email":email,
                     "csrfmiddlewaretoken":"{{ csrf_token }}",
                 },
                 success:function (data) {
-                        if(data["code"]==100){
+                        if(data["code"]==100||data["code"]==102){
                             error_email=true;
+                             $("#email").next().html(data["msg"]);
+                             $("#email").next().show();
+                        }else {
+                            error_email=false;
+                             $("#email").next().hide();
                         }
-                        $("#email").next().html(data["msg"]);
+
                 },
                 error:function (error) {
                     //请求失败
