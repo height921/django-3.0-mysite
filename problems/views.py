@@ -1,23 +1,65 @@
+import re
+
+from django.core import serializers
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from .models import Problem, Category
 from .utils.submit_code import HDUSubmit, hdu_get_result, main_function
 from status.models import Status
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from uuslug import slugify
+
 
 # Create your views here.
 
 
 def problems(request):
     '''
-    题目列表
+    题目列表,这里的tag就是model中的category，status指的该用户是否AC
     :param request:
     :return:
     '''
     problem_list = Problem.objects.all()
+    if request.session.get('not_first', False):
+        difficulty = request.session.get('difficulty', '')
+        difficulty = request.GET.get('difficulty', difficulty)
+        difficulty_num = re.sub("\D", "", difficulty)
+        tag = request.session.get('tag', '')
+        tag = request.GET.get('tag', tag)
+        status = request.session.get('status', '')
+        status = request.GET.get('status', status)
+    else:
+        difficulty = '难度'
+        tag = '标签'
+        status = '状态'
+        request.session['not_first'] = True
+        request.session['difficulty'] = difficulty
+        request.session['tag'] = tag
+        request.session['status'] = status
+    print('status',status)
+    if status != '状态':
+        if status == '已通过':
+            status_list = Status.objects.filter(user=request.user)
+            status_list = status_list.filter(result='Accept')
+            problem_list = [item.problem for item in status_list]
+        if status == '未通过':
+            status_list = Status.objects.filter(user=request.user)
+            status_list = status_list.filter(~Q(result='Accept'))
+            problem_list = [item.problem for item in status_list]
+        if status == '未做':
+            pass
+    if difficulty != '难度':
+        problem_list = Problem.objects.filter(difficulty=difficulty_num)
+    if tag != '标签':
+        category = Category.objects.get(title=tag)
+        problem_list = problem_list.filter(category=category)
+        pass
     context = {
-        'problems': problem_list,
+        'problem_list': problem_list,
+        'difficulty': difficulty,
+        'tag': tag,
+        'status': status,
     }
     return render(request, 'problems.html', context=context)
 
@@ -135,8 +177,8 @@ def problem_category(request, slug):
 #                                        )
 #         Problem.objects.first()
 #         status.problem = Problem.objects.get(problem_id=int(problem_id))
-        # status.problem = get_object_or_404(Problem, problem_id=problem_id)
-        # status.save()
-        # return HttpResponse('{"status":"success"}')
-    # else:
-    #     return HttpResponse('{"status":"success"}')
+# status.problem = get_object_or_404(Problem, problem_id=problem_id)
+# status.save()
+# return HttpResponse('{"status":"success"}')
+# else:
+#     return HttpResponse('{"status":"success"}')

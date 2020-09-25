@@ -103,7 +103,6 @@ def register(request):
 
     key = CaptchaStore.generate_key()
     image_url = captcha_image_url(key)
-
     context = {
         'key': key,
         'image_url': image_url,
@@ -132,6 +131,23 @@ def check_user(request):
             res = {"code": 101}
     else:
         res = {"code": 102, "msg": "请输入用户名"}
+
+    return JsonResponse(res)
+
+
+def check_captcha(request):
+    print('检查验证码')
+    res = {}
+    captcha_0 = request.GET.get('captcha_0')
+    captcha_1 = request.GET.get('captcha_1')
+    if captcha_1:
+        if CaptchaStore.objects.filter(response=captcha_1, hashkey=captcha_0):
+            print('验证码正确')
+            res = {"code": 101}
+        else:
+            res = {"code": 100, "msg": "验证码错误，请重新输入"}
+    else:
+        res = {"code": 102, "msg": "请输入验证码"}
 
     return JsonResponse(res)
 

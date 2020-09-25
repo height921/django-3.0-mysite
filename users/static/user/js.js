@@ -18,8 +18,7 @@ $(function(){
     var error_check_password = false;
     var error_email = false;
     var error_check = false;
-
-
+    var error_captcha = false;
 // 注册页面
 $('#name').blur(function () {
         if(check_name()){
@@ -81,6 +80,36 @@ $('#email').blur(function () {
         }
 
     });
+$('#id_captcha_1').blur(function () {
+        var captcha_1 = $("#id_captcha_1").val();
+        var captcha_0 = $("#id_reg_captcha_0").val();
+        $.ajax({
+            cache:false,
+            type:"GET",
+            url: '/user/register/check_captcha',
+            dataType: 'json',
+            async:true,
+            data:{
+                "captcha_0":captcha_0,
+                "captcha_1":captcha_1,
+            },
+            success:function (data) {
+                    if(data["code"]==100||data["code"]==102){
+                        error_captcha=true;
+                         $("#id_reg_captcha_0").next().html(data["msg"]);
+                         $("#id_reg_captcha_0").next().show();
+                    }else {
+                        error_captcha=false;
+                         $("#id_reg_captcha_0").next().hide();
+                    }
+
+            },
+            error:function (error) {
+                //请求失败
+            }
+        });
+
+    });
 $('#pass').blur(function () {
         check_pass();
     });
@@ -93,7 +122,7 @@ $('#register-form').submit(function () {
     check_name();
     check_pass();
     check_re_pass();
-    if(error_email==false&&error_password==false&&error_name==false&&error_check_password){
+    if(error_email==false&&error_password==false&&error_name==false&&error_check_password==false){
         if($("#agree-term").prop("checked")){
             return true;
         }else {
@@ -149,10 +178,11 @@ function check_re_pass() {
     if(pass!=re_pass){
         $("#re_pass").next().html("两次输入密码不同");
         $("#re_pass").next().show();
+        error_password=true;
     }else {
         $("#re_pass").next().hide();
         error_password=false;
     }
 }
 
-})
+});

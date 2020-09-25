@@ -16,5 +16,6 @@ urlpatterns = [
     path('terms/', views.terms, name='terms'),
     path('register/check_email/', views.check_email, name='check_email'),
     path('register/check_user/', views.check_user, name='check_user'),
+    path('register/check_captcha/', views.check_captcha, name='check_captcha'),
     path('logout/', views.logout, name='logout'),
 ]

@@ -6,10 +6,17 @@
 {% block head %}
 {#    <link rel="stylesheet" href="{% static 'problems/css/problems_list.css' %}">#}
     <link rel="stylesheet" href="{% static 'problems/css/self_button.css' %}">
+{#        <script type="text/javascript" src="{% static 'problems/problems_js.js' %}"></script>#}
 {% endblock %}
 {% block content %}
    <!-- https://bbbootstrap.com/snippets/forum-question-and-answer-listings-pagination-68897148 -->
     <div class="container-fluid mt-3">
+        <form method="get" action="{% url 'problem:problem_list' %}" id="problem_selection_form">
+            <input type="hidden" id="form_search" name="search">
+            <input type="hidden" id="form_difficulty" name="difficulty" value="{{ difficulty }}">
+            <input type="hidden" id="form_tag" name="tag" value="{{ tag }}">
+            <input type="hidden" id="form_status" name="status" value="{{ status }}">
+        </form>
         <div class="row">
             <!-- 搜索框begin -->
             <div class="col-5 p-0 ml-5 mb-3 d-flex flex-wrap justify-content-between align-items-center">
@@ -19,11 +26,12 @@
 
             <!-- 下拉列表begin-->
             <!-- 难度begin -->
+
             <div class="btn-group offset-3 col-1 align-items-center">
                 <button type="button" class="btn btn-sm btn-tag dropdown-toggle"
                         data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    难度
+                        aria-expanded="false" id="difficulty" form="problem_selection_form">
+                    {{ difficulty }}
                 </button>
                 <div class="dropdown-menu" style="min-width: 0px">
                     <a class="dropdown-item" href="#"
@@ -55,8 +63,8 @@
             <div class="btn-group col-1 align-items-center">
                 <button type="button" class="btn btn-sm btn-tag dropdown-toggle"
                         data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    标签
+                        aria-expanded="false" id="tag" form="problem_selection_form">
+                    {{ tag }}
                 </button>
                 <div class="dropdown-menu" style="min-width: 0px">
                     <a class="dropdown-item" href="#">二叉树</a>
@@ -76,13 +84,16 @@
             <div class="btn-group col-1 align-items-center">
                 <button type="button" class="btn btn-sm btn-tag dropdown-toggle"
                         data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                    状态
-                </button>
+                        aria-expanded="false" id="status">{{ status }}</button>
                 <div class="dropdown-menu" style="min-width: 0px">
                     <a class="dropdown-item" href="#">所有题目</a>
+                    {% if user.is_authenticated %}
                     <a class="dropdown-item" href="#">已通过</a>
                     <a class="dropdown-item" href="#">未通过</a>
+                    <a class="dropdown-item" href="#">未做</a>
+                    {% else %}
+                    <a class="dropdown-item" href="{% url 'user:login' %}">请先登录</a>
+                    {% endif %}
                 </div>
             </div>
             <!-- 状态 end-->
@@ -102,6 +113,39 @@
                     <div class="col-1 text-muted text-center">难度等级</div>
                 </div>
             </div>
+
+            {#            一行#}
+            <div id="problems">
+            {% for problem in problem_list %}
+            <div class="card-body py-3 row  align-items-center">
+                <div class="col-1 text-muted text-center">
+                    <!--fa-check是 √    fa-question是 ?-->
+                    <i class="fa fa-check fa-fw" style="color: #ACF233"></i>
+                </div>
+                <div class="col-1 text-muted text-center">{{ problem.problem_id }}</div>
+                <div class="col-4 text-muted"><a href="{% url 'problem:problem_detail' problem.slug %}">{{ problem.title }}</a></div>
+                <div class="col-1 text-muted text-center">
+                    <a href="http://acm.hdu.edu.cn/">
+                        <button type="button" class="btn btn-sm btn-outline-success">{{ problem.source }}</button>
+                    </a>
+                </div>
+                <div class="col-1 text-muted text-center">{{ problem.submitted }}</div>
+                <div class="col-1 text-muted text-center">{{ problem.accepted }}</div>
+                <div class="col-2 text-muted text-center">
+                    {% for category in problem.category.all %}
+                     <a class="btn btn-sm btn-primary" href="#" role="button">{{ category }}</a>
+                    {% endfor %}
+                </div>
+                <div class="col-1 text-muted text-center">
+                    <a class="btn btn-sm btn-level{{ problem.difficulty }}" href="#" role="button">level {{ problem.difficulty }}</a>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+            <hr class="m-0">
+{#            一行结束#}
+
+{#            一行#}
             <div class="card-body py-3 row  align-items-center">
                 <div class="col-1 text-muted text-center">
                     <!--fa-check是 √    fa-question是 ?-->
@@ -124,6 +168,7 @@
                     <a class="btn btn-sm btn-level0" href="#" role="button">level 0</a>
                 </div>
             </div>
+{#            一行结束#}
             <hr class="m-0">
             <div class="card-body py-3 row  align-items-center">
                 <div class="col-1 text-muted text-center">
@@ -324,4 +369,30 @@
     </div>
 
 
+{% endblock %}
+{% block script %}
+    <script type="text/javascript">
+// 下拉框显示选中内容
+$(".dropdown-menu a").click(function(){
+  var selText = $(this).text();
+  // $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
+  $(this).parents('.btn-group').find('.dropdown-toggle').html(selText);
+  if($(this).parents('.btn-group').find('.dropdown-toggle').attr("id")==="difficulty"){
+      $("#form_difficulty").val(selText);
+  }
+  if($(this).parents('.btn-group').find('.dropdown-toggle').attr("id")==="tag"){
+    $("#form_tag").val(selText);
+  }
+  if($(this).parents('.btn-group').find('.dropdown-toggle').attr("id")==="status"){
+      alert(selText);
+      if(selText=="请先登录"){
+          return;
+      }
+      $("#form_status").val(selText);
+
+  }
+  $("#problem_selection_form").submit();
+});
+
+</script>
 {% endblock %}
