@@ -134,15 +134,12 @@ def hdu_get_result(run_id, hdu_id):
     :param hdu_id: hdu用户提交ID
     :return: 结果
     '''
-    print('run_id', run_id)
-    print('hdu_id', hdu_id)
     if isinstance(run_id, int):
         url = 'http://acm.hdu.edu.cn/status.php?user=' + hdu_id
         time.sleep(0.5)
         html = urlopen(url)
         soup = BeautifulSoup(html, 'lxml')
         x = soup.find(text=run_id).parent.next_sibling
-        print(x)
         while x.next_sibling.text in ['Queuing', 'Compiling', 'Running']:
             time.sleep(1)
             html = urlopen(url)
@@ -184,78 +181,9 @@ def main_function(source, code, language, problem_id):
     :return: 返回查找结果
     '''
     account_id, account_password = get_account(source)
-    # account_id = '940657598'
-    # account_password = 'guokun921'
     if source == SourceList.HDU:
         robot = HDUSubmit(account_id, account_password)
         run_id = robot.submit(problem_id, code, language)
         return hdu_get_result(run_id=run_id, hdu_id=account_id)
     elif source == SourceList.POJ:
         pass
-'''
-    def status(self, pid):  # 返回最近一次提交
-        params = {
-            'pid': pid,
-            'user': self.id
-        }
-        r = self.session.get(self.status_url, params=params)
-        soup = BeautifulSoup(r.text, 'lxml')
-        trs = soup.find('div', {'id': 'fixed_table'})('tr')
-        model = [td.string for td in trs[0]('td')]
-        data = [td.string for td in trs[1]('td')]
-        pat = ['{:^%d}' % (max(len(model[i]), len(data[i])))
-               for i in range(len(data))]
-        for i in range(len(model)):
-            print(pat[i].format(model[i]), end=' ')
-        print()
-        for i in range(len(data)):
-            print(pat[i].format(data[i]), end=' ')
-        return r
-
-    def status_by_runid(self, rid):  # 返回最近一次提交
-        params = {
-            'first': rid,
-
-        }
-        r = self.session.get(self.status_url, params=params)
-        soup = BeautifulSoup(r.text, 'lxml')
-        trs = soup.find('div', {'id': 'fixed_table'})('tr')
-        model = [td.string for td in trs[0]('td')]
-        data = [td.string for td in trs[1]('td')]
-        pat = ['{:^%d}' % (max(len(model[i]), len(data[i])))
-               for i in range(len(data))]
-        for i in range(len(model)):
-            print(pat[i].format(model[i]), end=' ')
-        print()
-        for i in range(len(data)):
-            print(pat[i].format(data[i]), end=' ')
-        return r
-
-
-'''
-# def read_code(filename):
-#     code = None
-#     with open(filename, 'rb') as f:
-#         code = f.read()
-#     return code
-'''
-
-
-def main(lan='Cpp', argv=None):
-    print("请输入id和密码:")
-    id = "1139571193"
-    ps = "wzl123"
-    fname = "1000.cpp"
-    pnumber = 1067
-
-    # code = read_code(fname)
-    hdu = HDUSubmit(id, ps)
-    hdu.login()
-    hdu.submit(pnumber, code, lan)
-    print()
-    hdu.status_by_runid(33926234)  # 根据rid查找运行结果
-
-
-if __name__ == '__main__':
-    main()
-'''

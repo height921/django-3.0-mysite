@@ -1,12 +1,13 @@
-{% extends 'base.html' %}
-{% block title %}
-    题目分类
-{% endblock %}
-{% block head %}
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
     <link rel="stylesheet" href="{% static 'css/self_button.css' %}">
     <link rel="stylesheet" href="{% static 'css/category.css' %}">
     <link rel="stylesheet" href="{% static 'css/problems_list.css' %}">
 {% endblock %}
+
+{% block title %}Category{% endblock %}
+
 {% block content %}
     <section>
         <div class="container mt-3 mb-1" id="introduction">
@@ -148,5 +149,8 @@
         </div>
         <!-- 题目列表end -->
     </section>
+{% endblock %}
 
+{% block js %}
+    {#<script type="text/javascript" src="{% static 'js/problem.js' %}"></script>#}
 {% endblock %}

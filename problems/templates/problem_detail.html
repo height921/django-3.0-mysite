@@ -16,7 +16,7 @@
             <div class="col-lg-12 col-md-6">
                 <div class="main-card mb-3 card">
                     <div class="card-body">
-                        <h5 class="card-title">A + B Problem</h5>
+                        <h5 class="card-title">{{ problem.title }}</h5>
                         <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
                             <div class="vertical-timeline-item vertical-timeline-element">
                                 <div>
@@ -24,8 +24,8 @@
                                         <i class="badge badge-dot badge-dot-xl badge-success"></i>
                                     </span>
                                     <div class="vertical-timeline-element-content">
-                                        <p style="position: relative;margin-left: 90px;">TimeLimit: <i>1000</i> MS <br>SpaceLimit:
-                                            <i>32768</i> K</p>
+                                        <p style="position: relative;margin-left: 90px;">TimeLimit: <i>{{ problem.time_limit }}</i> MS <br>SpaceLimit:
+                                            <i>{{ problem.memory_limit }}</i> K</p>
                                         <span class="vertical-timeline-element-date">Limit</span>
                                     </div>
                                 </div>
@@ -34,7 +34,7 @@
                                 <div><span class="vertical-timeline-element-icon bounce-in"> <i
                                         class="badge badge-dot badge-dot-xl badge-warning"> </i> </span>
                                     <div class="vertical-timeline-element-content bounce-in">
-                                        <p style="position: relative;margin-left: 90px;">Calculate <i>A + B</i>.</p>
+                                        <p style="position: relative;margin-left: 90px;">{{ problem.title|safe }}</p>
                                         <span class="vertical-timeline-element-date">
                                             Problem Description
                                         </span>
@@ -45,9 +45,9 @@
                                 <div><span class="vertical-timeline-element-icon bounce-in"> <i
                                         class="badge badge-dot badge-dot-xl badge-danger"> </i> </span>
                                     <div class="vertical-timeline-element-content bounce-in">
-                                        <p style="position: relative;margin-left: 90px;">Each line will contain two
-                                            integers <i>A</i> and <i>B</i>. Process to end of
-                                            file.</p>
+                                        <p style="position: relative;margin-left: 90px;">
+                                            {{ problem.description }}
+                                        </p>
                                         <span class="vertical-timeline-element-date">
                                             Input Description
                                         </span>
@@ -58,7 +58,7 @@
                                 <div><span class="vertical-timeline-element-icon bounce-in"> <i
                                         class="badge badge-dot badge-dot-xl badge-primary"> </i> </span>
                                     <div class="vertical-timeline-element-content bounce-in">
-                                        <p style="position: relative;margin-left: 90px;">1 1</p>
+                                        <p style="position: relative;margin-left: 90px;">{{ problem.input_description|safe }}</p>
                                         <span class="vertical-timeline-element-date">Sample Input</span>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                 <div><span class="vertical-timeline-element-icon bounce-in"> <i
                                         class="badge badge-dot badge-dot-xl badge-success"> </i> </span>
                                     <div class="vertical-timeline-element-content bounce-in">
-                                        <p style="position: relative;margin-left: 90px;">2</p>
+                                        <p style="position: relative;margin-left: 90px;">{{ problem.output_description|safe }}</p>
                                         <span class="vertical-timeline-element-date">Sample Output</span>
                                     </div>
                                 </div>

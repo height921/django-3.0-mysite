@@ -48,6 +48,9 @@ def problems(request):
             status_list = status_list.filter(~Q(result='Accepted'))
             problem_list = [item.problem for item in status_list]
         if status == '未做':
+            problem_has_done = Status.objects.filter(user=request.user).values('problem')[0]
+            print('problem_has_done',problem_has_done)
+            # 还没写完呢
             pass
     if difficulty != '难度':
         problem_list = Problem.objects.filter(difficulty=difficulty_num)
@@ -59,6 +62,7 @@ def problems(request):
     context = {
         'problem_list': problem_list,
         'difficulty': difficulty,
+        'all_tag': Category.objects.values('title'),
         'tag': tag,
         'status': status,
     }

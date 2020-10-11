@@ -19,11 +19,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 import problems.urls
 import users.urls
+import status.urls
 from . import views
 urlpatterns = [
     path('', views.home, name='home'),
-    path('about/',views.about, name='about'),
+    path('about/', views.about, name='about'),
     path('user/', include(users.urls)),
+    path('status/',include(status.urls)),
     path('admin/', admin.site.urls),
     path('problems/', include(problems.urls)),
     path('captcha/', include('captcha.urls')),
