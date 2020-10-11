@@ -29,17 +29,17 @@ body {
     border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0
 }
 
-/*.card-header {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    border-bottom-width: 1px;*/
-/*    padding-top: 0;*/
-/*    padding-bottom: 0;*/
-/*    padding-right: .625rem;*/
-/*    height: 3.5rem;*/
-/*    background-color: #fff;*/
-/*    border-bottom: 1px solid rgba(26, 54, 126, 0.125)*/
-/*}*/
+.card-header {
+    display: flex;
+    align-items: center;
+    border-bottom-width: 1px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: .625rem;
+    height: 3.5rem;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(26, 54, 126, 0.125)
+}
 
 .btn-primary.btn-shadow {
     box-shadow: 0 0.125rem 0.625rem rgba(63, 106, 216, 0.4), 0 0.0625rem 0.125rem rgba(63, 106, 216, 0.5)

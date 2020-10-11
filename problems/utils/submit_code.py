@@ -134,6 +134,8 @@ def hdu_get_result(run_id, hdu_id):
     :param hdu_id: hdu用户提交ID
     :return: 结果
     '''
+    print('run_id', run_id)
+    print('hdu_id', hdu_id)
     if isinstance(run_id, int):
         url = 'http://acm.hdu.edu.cn/status.php?user=' + hdu_id
         time.sleep(0.5)

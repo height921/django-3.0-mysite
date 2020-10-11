@@ -4,12 +4,12 @@
     problems
 {% endblock %}
 {% block head %}
-       <link rel="stylesheet" href="{% static 'problems/css/problem.css' %}">
+    <link rel="stylesheet" href="{% static 'problems/css/problem.css' %}">
+    <link rel="stylesheet" href="{% static 'problems/css/check_single.css' %}">
+    <link rel="stylesheet" href="{% static 'problems/css/checkbox.css' %}">
+    <link rel="stylesheet" href="{% static 'problems/css/loading.css' %}">
 {% endblock %}
 {% block content %}
-        <!-- 尝试引入看板娘begin -->
-    <!--引入失败-->
-    <!-- 尝试引入看板娘end -->
     <section class="container mt-3 mb-3">
         <!--题目详细信息begin-->
         <div class="row d-flex justify-content-center mt-4 mb-3">
@@ -77,13 +77,17 @@
                                         class="badge badge-dot badge-dot-xl badge-dark"> </i> </span>
                                     <div class="vertical-timeline-element-content bounce-in">
                                         {% if user.is_authenticated %}
-                                        <button class="vertical-timeline-element-date btn btn-sm btn-submit"
-                                                data-toggle="modal" data-target="#SubmitAlert">Submit
-                                        </button>
-                                        {% else %}
-                                            <button>
-                                                <a href="{% url 'user:login' %}">请先登录</a>
+                                            <button class="vertical-timeline-element-date btn btn-sm btn-submit"
+                                                    data-toggle="modal" data-target="#SubmitAlert">Submit
                                             </button>
+                                        {% else %}
+                                            <!-- 请先登录 按钮begin -->
+                                            <button type="button"
+                                                    class="vertical-timeline-element-date btn btn-sm btn-submit"
+                                                    data-toggle="modal" data-target="#PleaseLogin">
+                                                请先登陆
+                                            </button>
+                                            <!-- 请先登录 按钮end -->
                                         {% endif %}
                                     </div>
                                 </div>
@@ -134,39 +138,251 @@
             </div>
         </div>
         <!--Submit弹出框end-->
+        <!-- 请先登录弹出框begin -->
+        <div class="modal fade" id="PleaseLogin" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">登录后方可提交代码</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 登陆表单begin -->
+                        <form method="post" id="login_form" action="#">
+                            {% csrf_token %}
+                            <div class="container">
+                                <div class="form-group">
+                                    <label for="username">用户名:</label>
+                                    <input type="text" id="username" class="form-control" placeholder="请输入用户名"
+                                           name="username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">密码:</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1"
+                                           placeholder="请输入密码" name="password">
+                                </div>
+                                <small class="error_tip" id="login_error">提示信息</small>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1">记住我</label>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row offset-8">
+                            <a type="btn" href="{% url 'user:register' %}" class="btn btn-link">注册</a>
+                            <button type="button" class="btn btn-primary" id="login_btn">登陆</button>
+                        </div>
+                    </div>
+                    <!-- 登陆表单end -->
+                </div>
+            </div>
+        </div>
+        <!-- 请先登录弹出框end -->
+        <!--                等待-->
+        <!-- Modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="waiting" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content ">
+                    <div class="modal-body">
+                        <!-- 提交后转圈圈等结果begin -->
+                        <div class="page-content page-container" id="page-content">
+                            <div class="row">
+                                <div class="col grid-margin stretch-card">
+                                    <div class="loader-demo-box  d-flex align-items-center justify-content-center">
+                                        <div class="jumping-dots-loader">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <small class="text-muted d-flex justify-content-center align-items-center">请耐心等待结果</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 提交后转圈圈等结果end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 一直都存在的转圈圈end -->
+        {#        代码AC#}
+        <div class="modal fade" id="result_ac" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 521px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="waitingLabel">提交结果</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 提交成功AC了 -->
+                        <div class="container">
+                            <!-- AC图标begin -->
+                            <div class="row align-items-center justify-content-center d-flex">
+                                <h4>Accept!</h4>
+                            </div>
+                            <!-- AC图标end -->
+                            <div class="dropdown-divider"></div>
+                            <!-- AC后用户加标签begin -->
+                            <form method="get" action="#" id="submit_suggest_form">
+                                <input type="hidden" value="{{ problem.pk }}" name="pk">
+                            <div class="row d-flex justify-content-center">
+                                <div class="card1">
+                                    <div class="card1-body">
+                                        <small class="d-flex  justify-content-center align-items-center text-muted mb-1">请为此题标记标签</small>
+                                        <label class="check"> <input type="checkbox" name="category" value="数据结构"><span>数据结构</span></label>
+                                        <label class="check"> <input type="checkbox" name="category" value="二叉树"><span>二叉树</span></label>
+                                        <label class="check"> <input type="checkbox" name="category" value="双指针"><span>双指针</span></label>
+                                        <label class="check"> <input type="checkbox" name="category" value="回溯算法"><span>回溯算法</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- AC后用户加标签end -->
+                            <div class="dropdown-divider"></div>
+                            <!-- AC后用户评level begin -->
+                            <small class="d-flex  justify-content-center align-items-center text-muted mb-1">请为此题标记难度等级</small>
+                            <div class="container">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="0"><span>level0</span></label>
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="1"><span>level1</span></label>
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="2"><span>level2</span></label>
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="3"><span>level3</span></label>
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="4"><span>level4</span></label>
+                                </div>
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="5"><span>level5</span></label>
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="6"><span>level6</span></label>
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="7"><span>level7</span></label>
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="8"><span>level8</span></label>
+                                    <label class="radio m-1"> <input type="radio" name="difficulty"
+                                                                     value="9"><span>level9</span></label>
+                                </div>
+                            </div>
+                            <!-- AC后用户评level end -->
+                            <div class="modal-footer">
+                                <small class="text-muted">您的选择结果将影响算法的推荐结果！</small>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="submit_suggest_btn">提交</button>
+                            </div>
+                            <!-- 提交失败 or AC失败 -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#        代码没有AC#}
+        <div class="modal fade" id="result_other" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 521px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="waitingLabel">提交结果</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row align-items-center justify-content-center d-flex">
+                            <h4 id="result_content">提交失败!</h4>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 提交代码之后等待框end -->
     </section>
 
 {% endblock %}
 {% block script %}
-<script type="text/javascript">
-{#登录#}
-$("#login_btn").click(function () {
-
-});
-    // 提交按钮
-$("#submit_btn").click(function () {
-    var code = $("#codes").val();
-    if(code.length<50){
-        $("#submit_error").html("代码太短了,最少50个字符");
-        $("#submit_error").show();
-    }
-    else {
-    $.ajax({
-        cache: false,
-        url: "{% url 'problem:problem_detail' problem.slug %}",
-        type: "POST",
-        dataType: 'json',
-        data:$('#submit_form').serialize(),
-        async: true,
-        success: function (data) {
-            if(data.status=='success'){
-            alert(data.result);
-            }else {
-                alert("提交失败");
-            }
-        }
+    <script type="text/javascript">
+        //标签提交
+        $("#submit_suggest_btn").click(function () {
+            $.ajax({
+                cache: false,
+                url: "{% url 'problem:modify_category_difficulty' %}",
+                type: "GET",
+                dataType: 'json',
+                data: $('#submit_suggest_form').serialize(),
+                async: true,
+                success: function (data) {
+                    if (data.status == 'success') {
+                        location.reload();
+                    } else {
+                        alert("error");
+                    }
+                }
+            });
     });
-    }
-});
-</script>
+        // 登录
+        $("#login_btn").click(function () {
+            $.ajax({
+                cache: false,
+                url: "{% url 'user:login' %}",
+                type: "POST",
+                dataType: 'json',
+                data: $('#login_form').serialize(),
+                async: true,
+                success: function (data) {
+                    if (data.status == 'success') {
+                        location.reload();
+                    } else {
+                        $("#login_error").html("用户名或密码错误");
+                    }
+                }
+            });
+        });
+        // 提交按钮
+        $("#submit_btn").click(function () {
+            var code = $("#codes").val();
+            if (code.length < 50) {
+                $("#submit_error").html("代码太短了,最少50个字符");
+                $("#submit_error").show();
+            } else {
+                // 显示正在提交
+                $("#SubmitAlert").modal("hide");
+                $("#waiting").modal("show");
+                $.ajax({
+                    cache: false,
+                    url: "{% url 'problem:problem_detail' problem.slug %}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: $('#submit_form').serialize(),
+                    async: true,
+                    success: function (data) {
+                        $("#waiting").modal("hide");
+                        if (data.status == 'success') {
+                            if (data.result == "Accepted") {
+                                $("#result_ac").modal("show");
+                            } else {
+                                $("#result_content").html(data.result);
+                                $("#result_other").modal("show");
+                            }
+                        } else {
+                            alert("提交失败");
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}

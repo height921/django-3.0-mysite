@@ -183,13 +183,101 @@ fieldset[disabled] .btn-submit.active {
 
 /*********************Submit-btn end***********************/
 
-/*********************Submit弹出框begin***********************/
+/*********************login-btn1 begin***********************/
+.btn-login1 {
+  color: #07AB56;
+  background-color: #FFFFFF;
+  border-color: #07AB56;
+}
 
+.btn-login1:hover,
+.btn-login1:focus,
+.btn-login1:active,
+.btn-login1.active,
+.open .dropdown-toggle.btn-login1 {
+  color: #07AB56;
+  background-color: #93ED9F;
+  border-color: #07AB56;
+}
 
-/*********************Submit弹出框end***********************/
+.btn-login1:active,
+.btn-login1.active,
+.open .dropdown-toggle.btn-login1 {
+  background-image: none;
+}
 
-/*********************题目详细信息begin***********************/
-/*********************题目详细信息end***********************/
+.btn-login1.disabled,
+.btn-login1[disabled],
+fieldset[disabled] .btn-login1,
+.btn-login1.disabled:hover,
+.btn-login1[disabled]:hover,
+fieldset[disabled] .btn-login1:hover,
+.btn-login1.disabled:focus,
+.btn-login1[disabled]:focus,
+fieldset[disabled] .btn-login1:focus,
+.btn-login1.disabled:active,
+.btn-login1[disabled]:active,
+fieldset[disabled] .btn-login1:active,
+.btn-login1.disabled.active,
+.btn-login1[disabled].active,
+fieldset[disabled] .btn-login1.active {
+  background-color: #FFFFFF;
+  border-color: #07AB56;
+}
+
+.btn-login1 .badge {
+  color: #FFFFFF;
+  background-color: #07AB56;
+}
+/*********************login-btn1 end***********************/
+
+/*********************register-btn1 begin***********************/
+.btn-register1 {
+  color: #075CAB;
+  background-color: #FFFFFF;
+  border-color: #075CAB;
+}
+
+.btn-register1:hover,
+.btn-register1:focus,
+.btn-register1:active,
+.btn-register1.active,
+.open .dropdown-toggle.btn-register1 {
+  color: #075CAB;
+  background-color: #00C0D1;
+  border-color: #075CAB;
+}
+
+.btn-register1:active,
+.btn-register1.active,
+.open .dropdown-toggle.btn-register1 {
+  background-image: none;
+}
+
+.btn-register1.disabled,
+.btn-register1[disabled],
+fieldset[disabled] .btn-register1,
+.btn-register1.disabled:hover,
+.btn-register1[disabled]:hover,
+fieldset[disabled] .btn-register1:hover,
+.btn-register1.disabled:focus,
+.btn-register1[disabled]:focus,
+fieldset[disabled] .btn-register1:focus,
+.btn-register1.disabled:active,
+.btn-register1[disabled]:active,
+fieldset[disabled] .btn-register1:active,
+.btn-register1.disabled.active,
+.btn-register1[disabled].active,
+fieldset[disabled] .btn-register1.active {
+  background-color: #FFFFFF;
+  border-color: #075CAB;
+}
+
+.btn-register1 .badge {
+  color: #FFFFFF;
+  background-color: #075CAB;
+}
+/*********************register-btn1 end***********************/
 
 /*********************题目详细信息begin***********************/
 /*********************题目详细信息end***********************/

@@ -41,11 +41,11 @@ def problems(request):
     if status != '状态':
         if status == '已通过':
             status_list = Status.objects.filter(user=request.user)
-            status_list = status_list.filter(result='Accept')
+            status_list = status_list.filter(result='Accepted')
             problem_list = [item.problem for item in status_list]
         if status == '未通过':
             status_list = Status.objects.filter(user=request.user)
-            status_list = status_list.filter(~Q(result='Accept'))
+            status_list = status_list.filter(~Q(result='Accepted'))
             problem_list = [item.problem for item in status_list]
         if status == '未做':
             pass
@@ -55,6 +55,7 @@ def problems(request):
         category = Category.objects.get(title=tag)
         problem_list = problem_list.filter(category=category)
         pass
+
     context = {
         'problem_list': problem_list,
         'difficulty': difficulty,
@@ -92,6 +93,7 @@ def problem_detail(request, slug):
         if isinstance(result, str):
             return JsonResponse({"status": "submit failed"})
         else:
+            problem = get_object_or_404(Problem, slug=slug)
             status = Status.objects.create(result=result.get('result'),
                                            time=result.get('time'),
                                            memory=result.get('memory'),
@@ -99,49 +101,45 @@ def problem_detail(request, slug):
                                            lang=result.get('lang'),
                                            # submit_time=result.get('submit_time'),
                                            user=request.user,
-                                           problem=get_object_or_404(Problem, slug=slug),
+                                           problem=problem,
                                            )
             status.save()
+            if status.result == "Accepted":
+                problem.accepted += 1
+            problem.submitted += 1
+            problem.pass_rate = problem.accepted/problem.submitted*100
+            problem.save()
             data = {
                 "status": "success",
-                "result": status.result
+                "result": status.result,
             }
             return JsonResponse(data=data)
 
 
-# def submit_code(request):
-#     if request.method == 'POST':
-#         print("进入了post")
-#         source = request.POST.get('source', '')
-#         code = request.POST.get('code', '')
-#         language = request.POST.get('language', '')
-#         problem_id = request.POST.get('problem_id', '')
-#         slug = slugify(source+problem_id)
-#         print(source, code)
-#         result = main_function(source, code, language, problem_id)
-#         print("result")
-#         print(result)
-#         if isinstance(result, str):
-#             return JsonResponse({"status": "submit failed"})
-#         else:
-#             print("进入保存结果的地方")
-#             status = Status.objects.create(result=result.get('result'),
-#                                            time=result.get('time'),
-#                                            memory=result.get('memory'),
-#                                            code_length=result.get('code_length'),
-#                                            lang=result.get('lang'),
-#                                            user=request.user,
-#                                            problem=get_object_or_404(Problem, slug=slug),
-#                                            )
-#             status.save()
-#             print("保存结果成功")
-#             data = {
-#                 "status": "success",
-#                 "result": status.result
-#             }
-#             return JsonResponse(data=data)
-#     else:
-#         return redirect('home')
+def modify_category_difficulty(request):
+    print("进入modify")
+    pk = request.GET.get("pk")
+    problem = Problem.objects.filter(pk=pk).first()
+    if problem:
+        category_list = request.GET.getlist("category")
+        difficulty = int(request.GET.get("difficulty"))
+        categories = problem.category.all()
+
+        for category_vote in category_list:
+            for category in categories:
+                if category_vote == category.title:
+                    category.vote_number += 1
+                    category.save()
+                    break
+
+        num = problem.participants
+        problem.difficulty = (num*problem.difficulty+difficulty)//(num+1)
+        problem.save()
+        data ={
+            "status": "success",
+        }
+        return JsonResponse(data=data)
+    return JsonResponse(data={"status": "error"})
 
 
 def problem_category(request, slug):
@@ -153,32 +151,3 @@ def problem_category(request, slug):
     }
     return render(request, 'problem_category.html', context=context)
 
-# def submit_code(request):
-#     if request.method == 'POST':
-#         source = request.POST.get('source', '')
-#         code = request.POST.get('code', '')
-#         language = request.POST.get('language', '')
-#         problem_id = request.POST.get('problem_id', '')
-#         print('source '+ source)
-#         print('code '+ code)
-#         print('language '+ language)
-#         print('problem_id '+ problem_id)
-#         robot = HDUSubmit(1139571193, 'wzl123')
-#         robot.login()
-#         run_id = robot.submit(problem_id, code, language)
-#         result = hdu_get_result(request.user.username, run_id, 1139571193)
-#         status = Status.objects.create(result=result.get('result'),
-#                                        time=result.get('time'),
-#                                        memory=result.get('memory'),
-#                                        code_length=result.get('code_length'),
-#                                        lang=result.get('lang'),
-#                                        submit_time=result.get('submit_time'),
-#                                        user=request.user,
-#                                        )
-#         Problem.objects.first()
-#         status.problem = Problem.objects.get(problem_id=int(problem_id))
-# status.problem = get_object_or_404(Problem, problem_id=problem_id)
-# status.save()
-# return HttpResponse('{"status":"success"}')
-# else:
-#     return HttpResponse('{"status":"success"}')

@@ -1,0 +1,51 @@
+.card2 {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    float: left;
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: 16px;
+    margin: 10px 1%;
+    max-width: 310px;
+    min-width: 250px;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    width: 100%
+}
+
+.ratings i {
+    font-size: 14px;
+    margin-right: 2px
+}
+
+.p-description {
+    font-size: 12px;
+    margin-top: 11px
+}
+
+label.radio {
+    cursor: pointer
+}
+
+label.radio input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none
+}
+
+label.radio span {
+    padding: 3px 9px;
+    border: 1px solid #41A1B0;
+    display: inline-block;
+    color: #63C1CF;
+    border-radius: 5px;
+    font-size: 16px;
+    text-transform: uppercase
+}
+
+label.radio input:checked+span {
+    border-color: #41A1B0;
+    background-color: #4182B0;
+    color: #fff
+}

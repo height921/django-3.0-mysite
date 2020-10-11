@@ -130,7 +130,7 @@
                     </a>
                 </div>
                 <div class="col-1 text-muted text-center">{{ problem.submitted }}</div>
-                <div class="col-1 text-muted text-center">{{ problem.accepted }}</div>
+                <div class="col-1 text-muted text-center">{{ problem.pass_rate }}%</div>
                 <div class="col-2 text-muted text-center">
                     {% for category in problem.category.all %}
                      <a class="btn btn-sm btn-primary" href="#" role="button">{{ category }}</a>

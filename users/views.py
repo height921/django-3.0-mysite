@@ -1,5 +1,6 @@
 from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
+from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from random import Random
@@ -68,6 +69,14 @@ def reset_password(request, active_code):
 
 
 def login(request):
+    if request.is_ajax():
+        user_name = request.POST.get("username", "")
+        pass_word = request.POST.get("password", "")
+        user = authenticate(username=user_name, password=pass_word)
+        if user is not None:
+            auth.login(request, user)
+            return JsonResponse({"status": "success"})
+        return JsonResponse({"status": "error"})
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():

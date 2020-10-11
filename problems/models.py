@@ -7,7 +7,7 @@ from uuslug import slugify
 class Category(models.Model):
     title = models.CharField(max_length=255, verbose_name='类型')
     content = models.TextField(verbose_name='介绍', default='')
-
+    vote_number = models.IntegerField(default=1, verbose_name="投票数")
     slug = models.SlugField(editable=False)
 
     def __str__(self):
@@ -36,6 +36,8 @@ class Problem(models.Model):
     category = models.ManyToManyField(to=Category, verbose_name='类型',
                                       related_name='problem_category', blank=True)
     difficulty = models.IntegerField(verbose_name='难度等级')
+    participants = models.IntegerField(verbose_name='参与分类的人数', default=0)
+    pass_rate = models.DecimalField(verbose_name='通过率', default=0, decimal_places=2, max_digits=5)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(str(self.source)+str(self.problem_id))
