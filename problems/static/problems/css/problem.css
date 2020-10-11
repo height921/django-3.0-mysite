@@ -285,3 +285,9 @@ fieldset[disabled] .btn-register1.active {
 /*********************题目详细信息begin***********************/
 /*********************题目详细信息end***********************/
 
+.fa-check-color{
+    color: #ACF233;
+}
+.fa-question-color{
+    color: #0062cc;
+}
