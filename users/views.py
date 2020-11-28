@@ -1,9 +1,17 @@
+import time
+from datetime import timedelta, datetime
+
 from captcha.helpers import captcha_image_url
 from captcha.models import CaptchaStore
 from django.contrib.auth import authenticate
+from django.db import connection
+from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from random import Random
+
+from django.utils.timezone import now
+
 from .forms import LoginForm, RegistrationForm, ForgetPasswordForm, ResetPassword
 from django.contrib import auth
 from django.urls import reverse
@@ -11,6 +19,7 @@ from django.contrib.auth.models import User
 from .utils.email_send import send_email
 from .models import EmailVerifyRecord
 from django.contrib.auth.hashers import make_password
+from status.models import Status
 # Create your views here.
 
 
@@ -18,10 +27,62 @@ def user_info(request):
     '''
     查看用户信息
     '''
-    context = {
+    if request.user.is_authenticated:
+        submission_num = Status.objects.filter(user=request.user).count()
+        ac_num = Status.objects.filter(user=request.user).values('user', 'problem__slug').distinct().count()
+        # 最近一个月的题目
+        nowadays = datetime.now()
+        a_month = datetime.now() - timedelta(days=30)
+        select = {'day': 'date(submit_time)'}
+        count_data = Status.objects. \
+            filter(submit_time__range=(a_month, nowadays),user=request.user). \
+            extra(select=select).values('day').order_by("day").annotate(number=Count('submit_time'))
+        submit_x_list = []
+        submit_y_list = []
+        ac_y_list = []
+        ac_x_list = []
+        for i in count_data:
+            print(type(i['day']))
+            submit_x_list.append(str(i['day']))
+            submit_y_list.append(i['number'])
+        count_data = Status.objects. \
+            filter(submit_time__range=(a_month, nowadays), user=request.user,result='Accepted'). \
+            extra(select=select).values('day').order_by("day").annotate(number=Count('submit_time'))
+        for i in count_data:
+            ac_x_list.append(str(i['day']))
+            ac_y_list.append(i['number'])
+        print('count_data',type(dict(count_data)))
+        submit_index=0
+        ac_index=0
+        submit_x=[]
+        submit_y=[]
+        ac_y=[]
+        for i in range((nowadays - a_month).days + 1):
+            day = (a_month + timedelta(days=i)).strftime("%Y-%m-%d")
+            submit_x.append(day)
+            if day in submit_x_list:
+                submit_y.append(submit_y_list[submit_index])
+                submit_index+=1
+            else:
+                submit_y.append(0)
+            if day in ac_x_list:
+                ac_y.append(ac_y_list[ac_index])
+                ac_index+=1
+            else:
+                ac_y.append(0)
 
-    }
-    return render(request,'user_info.html', context)
+        print(submit_x)
+        print(ac_y)
+        context = {
+            'submission_num': submission_num,
+            'AC_num': ac_num,
+            'submit_x_list': submit_x,
+            'submit_y_list': submit_y,
+            'AC_y_list': ac_y,
+        }
+        return render(request, 'user_info.html', context)
+    else:
+        return render(request, 'home.html', {})
 
 
 def forget_password(request):
@@ -60,7 +121,7 @@ def reset_password(request, active_code):
             email = request.POST.get('email')
             print(email)
             user = User.objects.get(email=email)
-            user.password=make_password(password=password2)
+            user.password = make_password(password=password2)
             user.save()
             print(155)
             return redirect('home')
@@ -125,7 +186,7 @@ def terms(request):
     :param request:
     :return:
     '''
-    return render(request, 'terms.html',{})
+    return render(request, 'terms.html', {})
 
 
 def check_user(request):
@@ -173,3 +234,7 @@ def check_email(request):
         res = {"code": 102, "msg": "请输入邮箱"}
 
     return JsonResponse(res)
+
+
+def questionnaire(request):
+    return render(request, 'questionnaire.html')

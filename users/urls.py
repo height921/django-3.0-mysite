@@ -3,9 +3,10 @@
 # Created by admin at 2020/9/13
 
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 import problems.views
 from . import views
+
 app_name = 'user'
 urlpatterns = [
     path('', views.user_info, name='user_info'),
@@ -18,4 +19,6 @@ urlpatterns = [
     path('register/check_user/', views.check_user, name='check_user'),
     path('register/check_captcha/', views.check_captcha, name='check_captcha'),
     path('logout/', views.logout, name='logout'),
+    path('questionnaire/', views.questionnaire, name='questionnaire'),
+
 ]

@@ -4,7 +4,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from .models import Problem, Category
-from .utils.submit_code import HDUSubmit, hdu_get_result, main_function
+from .utils.submit_code import HDUSubmit, main_function
 from status.models import Status
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
@@ -49,15 +49,17 @@ def problems(request):
             problem_list = [item.problem for item in status_list]
         if status == '未做':
             problem_has_done = Status.objects.filter(user=request.user).values('problem')[0]
-            print('problem_has_done',problem_has_done)
+            print('problem_has_done', problem_has_done)
             # 还没写完呢
             pass
     if difficulty != '难度':
         problem_list = Problem.objects.filter(difficulty=difficulty_num)
     if tag != '标签':
-        category = Category.objects.get(title=tag)
-        problem_list = problem_list.filter(category=category)
-        pass
+        if tag == '未分类':
+            problem_list = problem_list.filter(category=None)
+        else:
+            category = Category.objects.get(title=tag)
+            problem_list = problem_list.filter(category=category)
 
     context = {
         'problem_list': problem_list,
@@ -91,16 +93,24 @@ def problem_detail(request, slug):
         language = request.POST.get('language', '')
         problem_id = request.POST.get('problem_id', '')
         print(source, code)
+        problem = get_object_or_404(Problem, slug=slug)
+        # status=Status.objects.create(result='waiting',
+        #                              time=0,
+        #                              memory=0,
+        #                              code_length=0,
+        #                              lang=language,
+        #                              user=request.user,
+        #                              problem=problem)
+        # status.save()
         result = main_function(source, code, language, problem_id)
         print("result")
         print(result)
         if isinstance(result, str):
             return JsonResponse({"status": "submit failed"})
         else:
-            problem = get_object_or_404(Problem, slug=slug)
             status = Status.objects.create(result=result.get('result'),
-                                           time=result.get('time'),
-                                           memory=result.get('memory'),
+                                           time=result.get('time',0) if result.get('time',0)!='' else 0,
+                                           memory=result.get('memory', 0)if result.get('memory',0)!='' else 0,
                                            code_length=result.get('code_length'),
                                            lang=result.get('lang'),
                                            # submit_time=result.get('submit_time'),
@@ -155,3 +165,10 @@ def problem_category(request, slug):
     }
     return render(request, 'problem_category.html', context=context)
 
+
+def problem_all_category(request):
+    category_list = Category.objects.all()
+    context = {
+        'category_list':category_list,
+    }
+    return render(request, 'problem_all_category.html', context=context)

@@ -71,15 +71,8 @@
                     {% for tag in all_tag %}
                     <a class="dropdown-item" href="#">{{ tag.title }}</a>
                     {% endfor %}
-                    <a class="dropdown-item" href="#">二叉树</a>
-                    <a class="dropdown-item" href="#">动态规划</a>
-                    <a class="dropdown-item" href="#">BFS</a>
-                    <a class="dropdown-item" href="#">DFS</a>
-                    <a class="dropdown-item" href="#">回溯算法</a>
-                    <a class="dropdown-item" href="#">双指针</a>
-                    <a class="dropdown-item" href="#">分治算法</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" style="color: #3192b2;background-color: #edfbff">更多标签</a>
+                    <a class="dropdown-item" href="{% url 'problem:problem_all_category' %}" style="color: #3192b2;background-color: #edfbff">更多标签</a>
                 </div>
             </div>
             <!-- tag end-->
@@ -134,7 +127,7 @@
                 <div class="col-1 text-muted text-center">{{ problem.problem_id }}</div>
                 <div class="col-4 text-muted"><a href="{% url 'problem:problem_detail' problem.slug %}">{{ problem.title }}</a></div>
                 <div class="col-1 text-muted text-center">
-                    <a href="http://acm.hdu.edu.cn/">
+                    <a href="{{ problem.source_url }}">
                         <button type="button" class="btn btn-sm btn-outline-success">{{ problem.source }}</button>
                     </a>
                 </div>
@@ -178,7 +171,6 @@
 // 下拉框显示选中内容
 $("#level-btn").click(function () {
       var selText = $(this).text();
-      alert(selText);
       $("#form_difficulty").val(selText);
       $("#problem_selection_form").submit();
 
@@ -190,10 +182,12 @@ $(".dropdown-menu a").click(function(){
       $("#form_difficulty").val(selText);
   }
   if($(this).parents('.btn-group').find('.dropdown-toggle').attr("id")==="tag"){
+      if(selText=="更多标签"){
+          return;
+      }
     $("#form_tag").val(selText);
   }
   if($(this).parents('.btn-group').find('.dropdown-toggle').attr("id")==="status"){
-      alert(selText);
       if(selText=="请先登录"){
           return;
       }

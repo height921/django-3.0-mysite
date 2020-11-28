@@ -1,0 +1,174 @@
+/************表*************/
+.main {
+    border-collapse: separate !important;
+    border-spacing: 0 11px !important
+}
+
+tr {
+    border: 1px solid #eee
+}
+
+.head th {
+    font-weight: 500
+}
+
+tr:nth-child(3) {
+    border: solid thin
+}
+
+.form-check-input:focus {
+    border-color: #8bbafe;
+    outline: 0;
+    box-shadow: none
+}
+
+
+.form-check-input {
+    width: 1.15em;
+    height: 1.15em;
+    margin-top: 3px
+}
+
+.btn:focus {
+    color: #fff;
+    box-shadow: none !important
+}
+/**********自定义按钮************/
+/**********waiting************/
+.btn-waiting {
+  color: #000000;
+  background-color: #FFFFFF;
+  border-color: #000000;
+}
+
+.btn-waiting:hover,
+.btn-waiting:focus,
+.btn-waiting:active,
+.btn-waiting.active,
+.open .dropdown-toggle.btn-waiting {
+  color: #000000;
+  background-color: #FFFFFF;
+  border-color: #000000;
+}
+
+.btn-waiting:active,
+.btn-waiting.active,
+.open .dropdown-toggle.btn-waiting {
+  background-image: none;
+}
+
+.btn-waiting.disabled,
+.btn-waiting[disabled],
+fieldset[disabled] .btn-waiting,
+.btn-waiting.disabled:hover,
+.btn-waiting[disabled]:hover,
+fieldset[disabled] .btn-waiting:hover,
+.btn-waiting.disabled:focus,
+.btn-waiting[disabled]:focus,
+fieldset[disabled] .btn-waiting:focus,
+.btn-waiting.disabled:active,
+.btn-waiting[disabled]:active,
+fieldset[disabled] .btn-waiting:active,
+.btn-waiting.disabled.active,
+.btn-waiting[disabled].active,
+fieldset[disabled] .btn-waiting.active {
+  background-color: #FFFFFF;
+  border-color: #000000;
+}
+
+.btn-waiting .badge {
+  color: #FFFFFF;
+  background-color: #000000;
+}
+/**********ac************/
+.btn-ac {
+  color: #FFFFFF;
+  background-color: #42BA3A;
+  border-color: #FFFFFF;
+}
+
+.btn-ac:hover,
+.btn-ac:focus,
+.btn-ac:active,
+.btn-ac.active,
+.open .dropdown-toggle.btn-ac {
+  color: #FFFFFF;
+  background-color: #199E3B;
+  border-color: #FFFFFF;
+}
+
+.btn-ac:active,
+.btn-ac.active,
+.open .dropdown-toggle.btn-ac {
+  background-image: none;
+}
+
+.btn-ac.disabled,
+.btn-ac[disabled],
+fieldset[disabled] .btn-ac,
+.btn-ac.disabled:hover,
+.btn-ac[disabled]:hover,
+fieldset[disabled] .btn-ac:hover,
+.btn-ac.disabled:focus,
+.btn-ac[disabled]:focus,
+fieldset[disabled] .btn-ac:focus,
+.btn-ac.disabled:active,
+.btn-ac[disabled]:active,
+fieldset[disabled] .btn-ac:active,
+.btn-ac.disabled.active,
+.btn-ac[disabled].active,
+fieldset[disabled] .btn-ac.active {
+  background-color: #42BA3A;
+  border-color: #FFFFFF;
+}
+
+.btn-ac .badge {
+  color: #42BA3A;
+  background-color: #FFFFFF;
+}
+/********others********/
+.btn-others {
+  color: #FFFFFF;
+  background-color: #C40F0F;
+  border-color: #FFFFFF;
+}
+
+.btn-others:hover,
+.btn-others:focus,
+.btn-others:active,
+.btn-others.active,
+.open .dropdown-toggle.btn-others {
+  color: #FFFFFF;
+  background-color: #A10F0F;
+  border-color: #FFFFFF;
+}
+
+.btn-others:active,
+.btn-others.active,
+.open .dropdown-toggle.btn-others {
+  background-image: none;
+}
+
+.btn-others.disabled,
+.btn-others[disabled],
+fieldset[disabled] .btn-others,
+.btn-others.disabled:hover,
+.btn-others[disabled]:hover,
+fieldset[disabled] .btn-others:hover,
+.btn-others.disabled:focus,
+.btn-others[disabled]:focus,
+fieldset[disabled] .btn-others:focus,
+.btn-others.disabled:active,
+.btn-others[disabled]:active,
+fieldset[disabled] .btn-others:active,
+.btn-others.disabled.active,
+.btn-others[disabled].active,
+fieldset[disabled] .btn-others.active {
+  background-color: #C40F0F;
+  border-color: #FFFFFF;
+}
+
+.btn-others .badge {
+  color: #C40F0F;
+  background-color: #FFFFFF;
+}

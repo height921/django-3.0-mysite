@@ -26,13 +26,12 @@ class HDUSubmit(object):
     submit_url = 'http://acm.hdu.edu.cn/submit.php?action=submit'
     status_url = 'http://acm.hdu.edu.cn/status.php?'
     language_map = {
-        "C#": 6,
-        "Java": 5,
-        "Pascal": 4,
-        "C": 3,
-        "Cpp": 2,
-        "GCC": 1,
-        "G++": 0
+        "4": 6,# c#
+        "2": 5, #java
+        "5": 4, #gcc
+        "3": 3,# c
+        "0": 2, # c++
+        "1": 0 # g++
     }
 
     def __init__(self, user_id, password):
@@ -106,11 +105,11 @@ class HDUSubmit(object):
         if r.status_code == 200:
             print('submit success')
             time.sleep(0.1)
-            return self.get_run_id()
+            self.run_id = self.get_run_id()
 
         else:
             print('submit failed')
-            return 'submit failed'
+            self.run_id = 'submit failed'
 
     def get_run_id(self):
         url = 'http://acm.hdu.edu.cn/status.php?user=' + self.id
@@ -125,38 +124,176 @@ class HDUSubmit(object):
             self.id = 1000
             return 1000
 
-
-def hdu_get_result(run_id, hdu_id):
-    '''
-    爬取题目的提交结果
-    :param username: acm网站的用户
-    :param run_id: 题目对应的run_id
-    :param hdu_id: hdu用户提交ID
-    :return: 结果
-    '''
-    if isinstance(run_id, int):
-        url = 'http://acm.hdu.edu.cn/status.php?user=' + hdu_id
-        time.sleep(0.5)
-        html = urlopen(url)
-        soup = BeautifulSoup(html, 'lxml')
-        x = soup.find(text=run_id).parent.next_sibling
-        while x.next_sibling.text in ['Queuing', 'Compiling', 'Running']:
-            time.sleep(1)
+    def get_result(self):
+        '''
+        爬取题目的提交结果
+        :param username: acm网站的用户
+        :param run_id: 题目对应的run_id
+        :param hdu_id: hdu用户提交ID
+        :return: 结果
+        '''
+        if isinstance(self.run_id, int):
+            url = 'http://acm.hdu.edu.cn/status.php?user=' + self.id
+            time.sleep(0.5)
             html = urlopen(url)
             soup = BeautifulSoup(html, 'lxml')
-            x = soup.find(text=run_id).parent.next_sibling
-        result = {
-            'submit_time': x.text,
-            'result': x.next_sibling.text,
-            'problem_id': x.next_sibling.next_sibling.text,
-            'time': int(re.sub(r"\D", "", x.next_sibling.next_sibling.next_sibling.text)),
-            'memory': int(re.sub(r"\D", "", x.next_sibling.next_sibling.next_sibling.next_sibling.text)),
-            'code_length': int(re.sub(r"\D", "", x.next_sibling.next_sibling.next_sibling.next_sibling.next_sibling.text)),
-            'lang': x.next_sibling.next_sibling.next_sibling.next_sibling.next_sibling.next_sibling.text,
+            x = soup.find(text=self.run_id).parent.next_sibling
+            while x.next_sibling.text in ['Queuing', 'Compiling', 'Running']:
+                time.sleep(1)
+                html = urlopen(url)
+                soup = BeautifulSoup(html, 'lxml')
+                x = soup.find(text=self.run_id).parent.next_sibling
+            result = {
+                'submit_time': x.text,
+                'result': x.next_sibling.text,
+                'problem_id': x.next_sibling.next_sibling.text,
+                'time': int(re.sub(r"\D", "", x.next_sibling.next_sibling.next_sibling.text)),
+                'memory': int(re.sub(r"\D", "", x.next_sibling.next_sibling.next_sibling.next_sibling.text)),
+                'code_length': int(
+                    re.sub(r"\D", "", x.next_sibling.next_sibling.next_sibling.next_sibling.next_sibling.text)),
+                'lang': x.next_sibling.next_sibling.next_sibling.next_sibling.next_sibling.next_sibling.text,
+            }
+            return result
+        else:
+            return self.run_id  # 此时的run_id变成了’submit_failed‘
+
+
+class POJSubmit():
+    main_url = 'http://poj.org'
+    language_map = {
+        "3": 5, #c
+        "0": 4, #c++
+        "5": 3,# pascal
+        "2": 2, # java
+        "4": 1, #gcc
+        "1": 0 # g++
+    }
+    def __init__(self, user_id, password):
+        self.session = requests.session()
+        self.user_id = user_id
+        self.password = password
+        self.is_login = False
+
+    def login(self):
+
+        if self.is_login:
+            print('You Have Loged in!')
+
+            return False
+
+        login_data = {
+            'user_id1': self.user_id,
+            'password1': self.password,
+            'B1': 'login',
+            'url': '/'
         }
+        r = self.session.post(POJSubmit.main_url + '/login', data=login_data)
+        r = self.session.get(POJSubmit.main_url + '/send?to=' + self.user_id)
+
+        s = re.search('Error', r.text)
+        self.is_login = s is None
+        if self.is_login:
+            print('Login OK!')
+
+        else:
+            print('Login Failed!')
+        return s is None
+
+    def submit(self, code, prob_id, lang):
+
+        if not self.is_login:
+            print('Please Login First!')
+            self.login()
+
+        self.prob_id = prob_id
+        self.lang = self.language_map[lang]
+        code = base64.b64encode(code.encode())
+        code = str(code, encoding="utf8")  # 将代码编码
+        submit_data = {
+            'problem_id': prob_id,
+            'language': self.lang,
+            'source': code,
+            'submit': 'Submit',
+            'encoded': 1
+        }
+        r = self.session.post(POJSubmit.main_url + '/submit', data=submit_data)
+
+        if r.status_code != 200:
+            print('Submit Failed!')
+
+            return False
+        else:
+            print("Submitted!")
+
+    def get_result(self):
+        status = POJSubmit.main_url + '/status?problem_id=%s&user_id=%s&result=&language=%d' \
+            % (self.prob_id, self.user_id, self.lang)
+        print('url',self.prob_id,self.user_id,self.lang)
+        status_id = '0'
+        results = [
+            'Accepted',
+            'Presentation Error',
+            'Time Limit Exceeded',
+            'Memory Limit Exceeded',
+            'Wrong Answer',
+            'Runtime Error',
+            'Output Limit Exceeded',
+            'Compile Error',
+            'System Error',
+            'Validator Error',
+        ]
+        result = {}
+        while True:
+            found = False
+            res = ''
+            r = self.session.get(status)
+            print('Waiting for status...')
+
+            soup = BeautifulSoup(r.text, "lxml")
+            tbs = soup.find_all(self.__stat_tab)[0]
+            # tbs = soup.find_all()[0]
+            detail = ''
+            for i, tr in enumerate(tbs.find_all('tr')):
+                print(tr.td.contents[0])
+                if status_id == '0' and i == 1:
+                    status_id = tr.td.contents[0]
+                if status_id == tr.td.contents[0]:
+                    res = tr.find_all('td')[3].font.contents[0]
+                    detail = tr
+            print("status_id", status_id)
+            print("ret", res)
+            for ret in results:
+                if ret == res:
+                    result['Run ID'] = detail.find_all('td')[0].contents[0]
+                    result['User'] = detail.find_all('td')[1].contents[0].text
+                    result['Problem'] = detail.find_all(
+                        'td')[2].contents[0].text
+                    result['code_length'] = re.sub(r"\D", "",detail.find_all('td')[7].contents[0])
+                    result['submit_time'] = re.sub(r"\D", "",detail.find_all('td')[8].contents[0])
+                    result['lang'] = detail.find_all('td')[6].contents[0].text
+                    result['result'] = res
+                    if len(detail.find_all('td')[4].contents) > 0:
+                        result['memory'] = re.sub(r"\D", "",detail.find_all('td')[4].contents[0])
+                    else:
+                        result['memory'] = ''
+                    if len(detail.find_all('td')[5].contents) > 0:
+                        result['time'] = re.sub(r"\D", "",detail.find_all('td')[5].contents[0])
+                    else:
+                        result['time'] = ''
+                    found = True
+                    print('Have Got the Result!')
+
+                    break
+            if found:
+                break
+        print("result",result)
         return result
-    else:
-        return run_id #此时的run_id编程了’submit_faild‘
+
+    def __stat_tab(self, tag):
+        '''
+        ignore tables which is no the submission table
+        '''
+        return tag.has_attr('class') and tag['class'] == ['a']
 
 
 def get_account(source):
@@ -183,7 +320,10 @@ def main_function(source, code, language, problem_id):
     account_id, account_password = get_account(source)
     if source == SourceList.HDU:
         robot = HDUSubmit(account_id, account_password)
-        run_id = robot.submit(problem_id, code, language)
-        return hdu_get_result(run_id=run_id, hdu_id=account_id)
+        robot.submit(problem_id, code, language)
+        return robot.get_result()
     elif source == SourceList.POJ:
-        pass
+        robot = POJSubmit(account_id, account_password)
+        print("lang",language)
+        robot.submit(prob_id=problem_id, code=code,lang=language)
+        return robot.get_result()

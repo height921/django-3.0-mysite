@@ -31,6 +31,7 @@ class Problem(models.Model):
     sample_output = models.TextField(verbose_name='样例输出', blank=True)
     hint = models.TextField(blank=True, verbose_name='题目提示')
     source = models.CharField(max_length=200, blank=True, verbose_name='题目来源')
+    source_url = models.URLField(verbose_name='题目来源地址', blank=True, null=True, default=None)
     accepted = models.IntegerField(default=0, verbose_name='通过人数')
     submitted = models.IntegerField(default=0, verbose_name='提交人数')
     category = models.ManyToManyField(to=Category, verbose_name='类型',

@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{% static 'problems/css/check_single.css' %}">
     <link rel="stylesheet" href="{% static 'problems/css/checkbox.css' %}">
     <link rel="stylesheet" href="{% static 'problems/css/loading.css' %}">
+        <style type="text/css">
+        small.error_tip{
+            color: #e90b03;
+            display: none;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <section class="container mt-3 mb-3">
@@ -34,7 +40,7 @@
                                 <div><span class="vertical-timeline-element-icon bounce-in"> <i
                                         class="badge badge-dot badge-dot-xl badge-warning"> </i> </span>
                                     <div class="vertical-timeline-element-content bounce-in">
-                                        <p style="position: relative;margin-left: 90px;">{{ problem.title|safe }}</p>
+                                        <p style="position: relative;margin-left: 90px;">{{ problem.description|safe }}</p>
                                         <span class="vertical-timeline-element-date">
                                             Problem Description
                                         </span>
@@ -46,7 +52,7 @@
                                         class="badge badge-dot badge-dot-xl badge-danger"> </i> </span>
                                     <div class="vertical-timeline-element-content bounce-in">
                                         <p style="position: relative;margin-left: 90px;">
-                                            {{ problem.description }}
+                                            {{ problem.input_description|safe }}
                                         </p>
                                         <span class="vertical-timeline-element-date">
                                             Input Description
@@ -56,9 +62,22 @@
                             </div>
                             <div class="vertical-timeline-item vertical-timeline-element">
                                 <div><span class="vertical-timeline-element-icon bounce-in"> <i
+                                        class="badge badge-dot badge-dot-xl badge-info"> </i> </span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <p style="position: relative;margin-left: 90px;">
+                                           {{ problem.output_description }}
+                                        </p>
+                                        <span class="vertical-timeline-element-date">
+                                            Output Description
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vertical-timeline-item vertical-timeline-element">
+                                <div><span class="vertical-timeline-element-icon bounce-in"> <i
                                         class="badge badge-dot badge-dot-xl badge-primary"> </i> </span>
                                     <div class="vertical-timeline-element-content bounce-in">
-                                        <p style="position: relative;margin-left: 90px;">{{ problem.input_description|safe }}</p>
+                                        <p style="position: relative;margin-left: 90px;">{{ problem.sample_input|linebreaksbr }}</p>
                                         <span class="vertical-timeline-element-date">Sample Input</span>
                                     </div>
                                 </div>
@@ -67,7 +86,7 @@
                                 <div><span class="vertical-timeline-element-icon bounce-in"> <i
                                         class="badge badge-dot badge-dot-xl badge-success"> </i> </span>
                                     <div class="vertical-timeline-element-content bounce-in">
-                                        <p style="position: relative;margin-left: 90px;">{{ problem.output_description|safe }}</p>
+                                        <p style="position: relative;margin-left: 90px;">{{ problem.sample_output|linebreaksbr }}</p>
                                         <span class="vertical-timeline-element-date">Sample Output</span>
                                     </div>
                                 </div>
@@ -113,10 +132,12 @@
                             <h5 class="modal-title" id="exampleModalCenterTitle">Put in your code</h5>
                             <!--下拉列表begin-->
                             <select name="language" id="language" class="form-control ml-4" style="width: 100px">
-                                <option value="Cpp">C++</option>
-                                <option value="G++">G++</option>
-                                <option value="Java">Java</option>
-                                <option value="C">C</option>
+                                <option value="0">C++</option>
+                                <option value="1">G++</option>
+                                <option value="2">Java</option>
+                                <option value="3">C</option>
+                                <option value="4">C#</option>
+                                <option value="5">Pascal</option>
                             </select>
                             <!--下拉列表end-->
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

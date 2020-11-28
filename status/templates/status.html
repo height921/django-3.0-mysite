@@ -1,13 +1,101 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     status
 {% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'status/css/status.css' %}">
+{% endblock %}
+
 {% block content %}
 
-    {% for status in status_list %}
-        <p>{{ status.problem.title }}</p>
-        <p> {{ status.problem.problem_id }}</p>
-        <p>{{ status.result }}</p>
-    {% endfor %}
+    <div class="container offset-2 col-8 mt-5">
+        <table class="table main">
+            <thead>
+            <tr class="head">
+                <th scope="col">用户</th>
+                <th scope="col">Problem ID</th>
+                <th scope="col">题目来源</th>
+                <th scope="col">题目标题</th>
+                <th scope="col">提交状态</th>
+                <th scope="col">提交时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for status in status_list %}
+                <tr class="rounded">
+                </th>
+                <td>{{ status.user.username }}</td>
+                <td>{{ status.problem_id }}</td>
+                <td>{{ status.problem.source }}</td>
+                <td>{{ status.problem.title }}</td>
+                <td>
+                    <div class="dropdown">
+                        {% if status.result == 'Accepted' %}
+                             <button class="btn btn-ac btn-sm" type="button"
+                                aria-expanded="false"> {{ status.result }}
+                            </button>
+                        {% else %}
+                              <button class="btn btn-others btn-sm" type="button"
+                                aria-expanded="false"> {{ status.result }}
+                            </button>
+                        {% endif %}
+{#                        <button class="btn btn-waiting btn-sm" type="button"#}
+{#                                aria-expanded="false"> {{ status.result }}#}
+{#                        </button>#}
+                    </div>
+                </td>
+                <td>{{ status.submit_time }}</td>
+            </tr>
+            {% endfor %}
+            
 
+            <tr class="rounded">
+                </th>
+                <td>19645</td>
+                <td>1000</td>
+                <td>HDU</td>
+                <td>A+B Problem</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-waiting btn-sm" type="button"
+                                aria-expanded="false"> waiting...
+                        </button>
+                    </div>
+                </td>
+                <td>2020-11-23 16:44</td>
+            </tr>
+            <tr class="rounded">
+                </th>
+                <td>19645</td>
+                <td>1000</td>
+                <td>HDU</td>
+                <td>A+B Problem</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-ac btn-sm" type="button"
+                                aria-expanded="false"> AC
+                        </button>
+                    </div>
+                </td>
+                <td>2020-11-23 16:44</td>
+            </tr>
+            <tr class="rounded">
+                </th>
+                <td>19645</td>
+                <td>1000</td>
+                <td>HDU</td>
+                <td>A+B Problem</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-others btn-sm" type="button"
+                                aria-expanded="false"> TEL
+                        </button>
+                    </div>
+                </td>
+                <td>2020-11-23 16:44</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

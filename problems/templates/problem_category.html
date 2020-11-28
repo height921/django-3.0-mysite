@@ -34,7 +34,7 @@
                     <div class="col-4 text-muted"><a href="{% url 'problem:problem_detail' problem.slug %}">{{ problem.title }}</a></div>
                     <div class="col-1 text-muted">
                         <a href="http://acm.hdu.edu.cn/">
-                            <button type="button" class="btn btn-sm btn-outline-success">HDU</button>
+                            <button type="button" class="btn btn-sm btn-outline-success">{{ problem.source }}</button>
                         </a>
                     </div>
                     <div class="col-3 text-muted text-right">{{ problem.submitted }} | {{ problem.pass_rate }}%</div>

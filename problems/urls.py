@@ -8,6 +8,7 @@ app_name = 'problem'
 urlpatterns = [
     path('', views.problems, name='problem_list'),
     path('<slug:slug>/', views.problem_detail, name='problem_detail'),
+    path('category',views.problem_all_category, name='problem_all_category'),
     path('category/<slug:slug>', views.problem_category, name='problem_category'),
     path('modify_category_difficulty', views.modify_category_difficulty, name='modify_category_difficulty'),
 ]

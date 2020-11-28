@@ -1,12 +1,171 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     用户信息
 {% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'user/css/user_info.css' %}">
+{% endblock %}
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            {{ field }}
-        {% endfor %}
+    <form>
+        <div class="container bg-white mt-sm-4 mb-5">
+            <div class="wrapper d-flex justify-content-center flex-column px-md-5 px-1">
+                <div class="h3 text-center font-weight-bold">用户个人信息</div>
+                <div class="row my-4">
+                    <div class="col-md-6"><label>用户名</label>
+                        <input type="text" placeholder="{{ user.username }}" disabled="disabled"></div>
+                    <div class="col-md-6 pt-md-0 pt-4"><label>密码</label>
+                        <a href="#">
+                            <input type="password" placeholder="点击此处可更改密码" disabled="disabled">
+                        </a>
+                    </div>
+                </div>
+                <div class="row my-md-4 my-2">
+                    <div class="col-md-6"><label>邮箱</label>
+                        <input type="text" placeholder="{{ user.email }}" disabled="disabled"></div>
+                    <div class="col-md-6 pt-md-0 pt-4"><label>电话号码</label>
+                        <input type="text" placeholder="无" disabled="disabled"></div>
+                </div>
+                <div class="row my-md-4 my-2">
+                    <div class="col-md-6"><label>提交次数</label>
+                        <input type="text" placeholder="{{ submission_num }}" disabled="disabled"></div>
+                    <div class="col-md-6 pt-md-0 pt-4"><label>AC题数</label>
+                        <input type="text" placeholder="{{ AC_num }}" disabled="disabled">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn m-3">修改资料</button>
+                </div>
+            </div>
+        </div>
     </form>
+    <!-- 雷达图和折线图 使用chart.js-->
+    <div class="container bg-white mt-sm-4 mb-5">
+        <div class="wrapper flex-column px-md-5 px-1">
+            <div class="row my-4">
+                <!-- 雷达图 -->
+                <div class="col-md-6 mt-3">
+                    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
+                    <script>
+                        $(document).ready(function () {
+                            var ctx = $("#chart-radar");
+                            var myLineChart = new Chart(ctx, {
+                                type: 'radar',
+                                data: {
+                                    labels: ['Running', 'Swimming', 'Eating', 'Cycling', 'Skating', 'Singing', 'Balling'],
+                                    datasets: [{
+                                        data: [150, 164, 210, 195, 169, 184, 250],
+                                        label: "A Team",
+                                        borderColor: "#458af7",
+                                        backgroundColor: '#458af7',
+                                        fill: true
+                                    }, {
+                                        data: [168, 170, 178, 190, 203, 276, 279],
+                                        label: "B Team",
+                                        borderColor: "#3cba9f",
+                                        fill: true,
+                                        backgroundColor: '#3cba9f'
+                                    }]
+                                },
+                                options: {
+                                    title: {
+                                        display: false,
+                                        text: 'School Tournament(Max points - 300)'
+                                    }
+                                }
+                            });
+                        });
+                    </script>
+                    <div class="page-content page-container" id="radar-chart">
+                        <div class="padding">
+                            <div class="container-fluid">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">用户属性雷达图</div>
+                                        <div class="card-body" style="height: 300px">
+                                            <div class="chartjs-size-monitor"
+                                                 style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                                <div class="chartjs-size-monitor-expand"
+                                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                    <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                                </div>
+                                                <div class="chartjs-size-monitor-shrink"
+                                                     style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                    <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                                </div>
+                                            </div>
+                                            <canvas id="chart-radar" width="299" height="200"
+                                                    class="chartjs-render-monitor"
+                                                    style="display: block; width: 299px; height: 200px;"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        var ctx = $("#chart-line");
+                        var myLineChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: {{ submit_x_list|safe }},
+                                datasets: [{
+                                    data:{{ submit_y_list|safe }},
+                                    label: "提交次数",
+                                    borderColor: "#458af7",
+                                    fill: false
+                                }, {
+                                    data: {{ AC_y_list|safe }},
+                                    label: "解题数",
+                                    borderColor: "#8e5ea2",
+                                    fill: false
+                                }, {
+                                    data: [0],
+                                    label: "Europe",
+                                    borderColor: "#3cba9f",
+                                    fill: false
+                                }]
+                            },
+                            options: {
+                                title: {
+                                    display: true,
+                                    text: 'World population per region (in millions)'
+                                }
+                            }
+                        });
+                    });
+                </script>
+                <!-- 折线图 -->
+                <div class="page-content page-container" id="line-chart">
+                    <div class="padding">
+                        <div class="container-fluid">
+                            <div class="col-12 mt-3">
+                                <div class="card">
+                                    <div class="card-header">用户提交情况折线图</div>
+                                    <div class="card-body" style="height: 300px">
+                                        <div class="chartjs-size-monitor"
+                                             style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                            <div class="chartjs-size-monitor-expand"
+                                                 style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                            </div>
+                                            <div class="chartjs-size-monitor-shrink"
+                                                 style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                                <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                            </div>
+                                        </div>
+                                        <canvas id="chart-line" width="299" height="200"
+                                                class="chartjs-render-monitor"
+                                                style="display: block; width: 299px; height: 200px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

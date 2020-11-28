@@ -1,102 +1,92 @@
-#!python
-# -*- encoding:utf-8 -*-
-# Created by admin at 2020/9/10
+# from PIL import Image
+# import pytesseract
+##导入通用包
+import numpy as np
+import pandas as pd
+import os
+import json
+import re
+import base64
+import xlwings as xw
+##导入腾讯AI api
+from tencentcloud.common import credential
+from tencentcloud.common.profile.client_profile import ClientProfile
+from tencentcloud.common.profile.http_profile import HttpProfile
+from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
+from tencentcloud.ocr.v20181119 import ocr_client, models
 
-from py.submit_code import *
+#定义函数
+def excelFromPictures(picture,SecretId,SecretKey):
 
-code = """#include <iostream>
-            using namespace std;
-            int main()
-            {
-            int a, b;
-            int sum = 0;
-            while (cin >> a>> b)
-            {
-            cout << a + b << endl;
-            }
-            return 0;
-            }"""
-# e = HduSubmitter()
-# e.login(username='940657598', password='guokun921')
-# e.submit(language='2', problem='1000', code=code)
-# e.get_result()
-'''
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
-import requests
-headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36'
-        }
+    rowIndex = []
+    colIndex = []
+    content = []
+    try:
+        with open(picture,"rb") as f:
+                img_data = f.read()
+        img_base64 = base64.b64encode(img_data)
+        cred = credential.Credential(SecretId, SecretKey)  #ID和Secret从腾讯云申请
+        httpProfile = HttpProfile()
+        httpProfile.endpoint = "ocr.tencentcloudapi.com"
 
-submit_url = 'http://acm.hdu.edu.cn/submit.php?action=submit'
-data = {
-            'check': 1,
-            'problemid': '1000',
-            'language': '3',
-            'usercode': code
-        }
-requests.post(submit_url, data=data, headers=headers)
-url = 'http://acm.hdu.edu.cn/status.php?user=940657598'
-html = urlopen(url)
-soup = BeautifulSoup(html, 'lxml')
-'''
+        clientProfile = ClientProfile()
+        clientProfile.httpProfile = httpProfile
+        client = ocr_client.OcrClient(cred, "ap-shanghai", clientProfile)
+
+        req = models.TableOCRRequest()
+        params = '{"ImageBase64":"' + str(img_base64, 'utf-8') + '"}'
+        req.from_json_string(params)
+        resp = client.TableOCR(req)
+        #     print(resp.to_json_string())
+        ##提取识别出的数据，并且生成json
+        result1 = json.loads(resp.to_json_string())
+        for item in result1['TextDetections']:
+            rowIndex.append(item['RowTl'])
+            colIndex.append(item['ColTl'])
+            content.append(item['Text'])
+    except TencentCloudSDKException as err:
+        print(err)
+
+    ##导出Excel
+    ##ExcelWriter方案
+    rowIndex = pd.Series(rowIndex)
+    colIndex = pd.Series(colIndex)
+
+    index = rowIndex.unique()
+    index.sort()
+
+    columns = colIndex.unique()
+    columns.sort()
+
+    data = pd.DataFrame(index = index, columns = columns)
+    for i in range(len(rowIndex)):
+        data.loc[rowIndex[i],colIndex[i]] = re.sub(" ","",content[i])
+
+    writer = pd.ExcelWriter("." + re.match(".*\.",f.name).group() + "xlsx", engine='xlsxwriter')
+    data.to_excel(writer,sheet_name = 'Sheet1', index=False,header = False)
+    writer.save()
+
+    #xlwings方案
+    # wb = xw.Book()
+    # sht = wb.sheets('Sheet1')
+    # for i in range(len(rowIndex)):
+    #     sht[rowIndex[i],colIndex[i]].value = re.sub(" ",'',content[i])
+    # wb.save("../tables/" + re.match(".*\.",f.name).group() + "xlsx")
+    # wb.close()
 
 
-class Test:
 
-    def __init__(self):
-        self.login_url = 'http://acm.hdu.edu.cn/userloginex.php?action=login'  # 这是hdu的登陆界面地址
-        self.login_data = {"username": "940657598",
-                           "userpass": "guokun921",
-                           "login": "Sign In"
-                           }
-        self.question_url_pre = "http://acm.hdu.edu.cn/showproblem.php?pid="
-        self.problem_url = ""
-        self.problem_id = ""
-        self.coding = ""
-        self.problem_name = ""
-        self.source = ""
-        self.submit_data = {"check": "1",
-                            "problemid": "1000",
-                            "language": "2",
-                            "usercode": code,
-                            }
-        self.submit_url = "http://acm.hdu.edu.cn/submit.php?action=submit"
-        self.login_data = urllib.parse.urlencode(self.login_data).encode('utf-8')
-        self.headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36"
-        }
-        self.pattern_title = 'lang="en-US">(.)*?</div>'
+# if not ('tables') in os.listdir():
+#     os.mkdir("./tables/")
+#
+# os.chdir("./pictures/")
+# pictures = os.listdir()
+# for pic in pictures:
+#     excelFromPictures(pic,"YoungID","YourKey")
+#     print("已经完成" + pic + "的提取.")
 
-    def login(self):
-        requ = urllib.request.Request(url=self.login_url, data=self.login_data, headers=self.headers)
-        cjar = http.cookiejar.CookieJar()  # 创建一个CookieJar对象
-        # 使用HTTPCookieProcessor创建一个cookie处理器 并且用它当参数构建opener对象
-        opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cjar))
-        # 把opener安装为全局
-        urllib.request.install_opener(opener)
-        file = opener.open(requ)
-    # with open("test.html" , "wb") as fhandler:
-    #	fhandler.write(file.read())
-
-    def submit(self):
-        # self.submit_data["problemid"] = str(page)
-        try:
-            self.submit_data["usercode"] = self.coding
-        except Exception as E:
-            print("错误发生在这里 快来看我  line 81 " + str(E))
-        self.submit_data = urllib.parse.urlencode(self.submit_data).encode('utf-8')
-        # self.headers["Referer"] = "http://poj.org/submit?problem_id=" + str(page)
-        requ = urllib.request.Request(url=self.submit_url, data=self.submit_data, headers=self.headers)
-        try:
-            html = urllib.request.urlopen(requ, timeout=15)
-        except Exception as E:
-            print(E)
-    # with open("file.html" , "wb") as fhandler:
-    #	fhandler.write(html.read())
-    # print("submit模块")
-    #
-
-t =Test()
-t.login()
-t.submit()
+pic='./test.png'
+APPID=1304274829
+SecretID='AKID711krgKPt50kFUfvGL9i5KJ1W2KLlc1C'
+SecretKey='3kUx97sd8MEOIvGRpxrUs9Au2vd4JH0S'
+excelFromPictures(pic,SecretID,SecretKey)

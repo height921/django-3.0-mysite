@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    问卷
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'user/css/questionnaire.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container  mt-5 mb-5">
+        <div class="d-flex  justify-content-center row">
+            <div class="col-md-10 col-lg-10">
+                <form>
+                    <div class="shadow rounded">
+                        <!--问卷头-->
+                        <div class="question bg-white p-3 border-bottom">
+                            <div class="d-flex flex-row justify-content-between align-items-center mcq">
+                                <h4>一个问卷</h4><span style="color: #9E9E9E">认真填写此问卷以帮助算法快速识别您的编程能力</span>
+                            </div>
+                        </div>
+                        <!--问题组-->
+
+                        <!--单选题-->
+                        <div class="question bg-white p-3 border-bottom rounded">
+                            <div class="d-flex flex-row justify-content-between align-items-center mcq"
+                                 style="color: #7c868c">
+                                <h7>单选题</h7>
+                                <span>一题只能选一个噢!</span>
+                            </div>
+                        </div>
+                        <!---------------------question   begin---------------------->
+                        <div class="question bg-white p-3 border-bottom rounded">
+                            <div class="d-flex flex-row align-items-center question-title">
+                                <h3 class="text-info">Q.</h3>
+                                <h5 class="mt-1 ml-2">5007最帅的男人是谁？</h5>
+                            </div>
+                            <div class="ans ml-2">
+                                <label class="radio">
+                                    <!--注意添加题目的时候，同一个问题的name要相同-->
+                                    <input type="radio" name="question1" class="mr-2" value="东东学长"><span>东东学长</span>
+                                </label>
+                            </div>
+                            <div class="ans ml-2">
+                                <label class="radio">
+                                    <input type="radio" name="question1" class="mr-2" value="坤坤酱"><span>坤坤酱</span>
+                                </label>
+                            </div>
+                            <div class="ans ml-2">
+                                <label class="radio">
+                                    <input type="radio" name="question1" class="mr-2" value="小玲"
+                                           checked="checked"><span>小玲</span>
+                                </label>
+                            </div>
+                            <div class="ans ml-2">
+                                <label class="radio">
+                                    <input type="radio" name="question1" class="mr-2" value="老四"><span>老四</span>
+                                </label>
+                            </div>
+                        </div>
+                        <!---------------------question   end---------------------->
+                        <!--多选题-->
+                        <div class="question bg-white p-3 border-bottom rounded">
+                            <div class="d-flex flex-row justify-content-between align-items-center mcq"
+                                 style="color: #7c868c">
+                                <h7>多选题</h7>
+                                <span>一题可以选多个噢!</span>
+                            </div>
+                        </div>
+                        <!---------------------question   begin---------------------->
+                        <div class="question bg-white p-3 border-bottom rounded">
+                            <div class="d-flex flex-row align-items-center question-title">
+                                <h3 class="text-info">Q.</h3>
+                                <h5 class="mt-1 ml-2">5007最帅的男人是谁？</h5>
+                            </div>
+                            <div class="ans ml-2">
+                                <label class="radio">
+                                    <!--注意添加题目的时候，同一个问题的name要相同-->
+                                    <input type="checkbox" name="question2" class="mr-2" value="东东学长"><span>东东学长</span>
+                                </label>
+                            </div>
+                            <div class="ans ml-2">
+                                <label class="radio">
+                                    <input type="checkbox" name="question2" class="mr-2" value="坤坤酱"><span>坤坤酱</span>
+                                </label>
+                            </div>
+                            <div class="ans ml-2">
+                                <label class="radio">
+                                    <input type="checkbox" name="question2" class="mr-2" value="小玲"
+                                           checked="checked"><span>小玲</span>
+                                </label>
+                            </div>
+                            <div class="ans ml-2">
+                                <label class="radio">
+                                    <input type="checkbox" name="question2" class="mr-2" value="老四"><span>老四</span>
+                                </label>
+                            </div>
+                        </div>
+                        <!---------------------question   end---------------------->
+                        <!--问卷尾-->
+                        <div class="flex-row d-flex align-items-end justify-content-end p-3 bg-white">
+                            <button class="btn btn-primary border-success btn-success" type="button">
+                                完成<i class="fa fa-angle-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

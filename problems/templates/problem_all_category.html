@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load problem_tags %}
+{% load static %}
+{% block title %}
+    题目分类
+{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/category.css' %}">
+{% endblock %}
+{% block content %}
+    {% for category in category_list %}
+        {{ category.title }}
+        {{ category.content }}
+    {% endfor %}
+{% endblock %}
