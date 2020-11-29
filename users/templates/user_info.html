@@ -15,7 +15,7 @@
                     <div class="col-md-6"><label>用户名</label>
                         <input type="text" placeholder="{{ user.username }}" disabled="disabled"></div>
                     <div class="col-md-6 pt-md-0 pt-4"><label>密码</label>
-                        <a href="#">
+                        <a href="{% url 'user:reset_pwd2' %}">
                             <input type="password" placeholder="点击此处可更改密码" disabled="disabled">
                         </a>
                     </div>
@@ -109,6 +109,7 @@
                         var ctx = $("#chart-line");
                         var myLineChart = new Chart(ctx, {
                             type: 'line',
+                            minInterval:1,
                             data: {
                                 labels: {{ submit_x_list|safe }},
                                 datasets: [{

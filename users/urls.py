@@ -20,5 +20,5 @@ urlpatterns = [
     path('register/check_captcha/', views.check_captcha, name='check_captcha'),
     path('logout/', views.logout, name='logout'),
     path('questionnaire/', views.questionnaire, name='questionnaire'),
-
+    path('reset_pwd2/', views.reset_pwd2, name='reset_pwd2'),
 ]

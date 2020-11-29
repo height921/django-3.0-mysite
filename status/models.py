@@ -15,5 +15,7 @@ class Status(models.Model):
     code = models.TextField(verbose_name='提交代码', default='')
     lang = models.CharField(max_length=200, verbose_name='语言')
     submit_time = models.DateTimeField(auto_now_add=True, verbose_name='提交时间')
+    is_first_submit = models.BooleanField(default=False,verbose_name='是否是第一次提交')
+    is_first_ac = models.BooleanField(default=False,verbose_name='是否是第一次ac')
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE, related_name='problem_status')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_status')

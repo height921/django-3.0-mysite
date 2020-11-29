@@ -37,7 +37,7 @@ def problems(request):
         request.session['difficulty'] = difficulty
         request.session['tag'] = tag
         request.session['status'] = status
-    print('status',status)
+    print('status', status)
     if status != '状态':
         if status == '已通过':
             status_list = Status.objects.filter(user=request.user)
@@ -108,20 +108,30 @@ def problem_detail(request, slug):
         if isinstance(result, str):
             return JsonResponse({"status": "submit failed"})
         else:
+            if result.get('result') == "Accepted":
+                problem.accepted += 1
+                if Status.objects.filter(user=request.user).exists():
+                    is_first = False
+                else:
+                    is_first = True
+                if Status.objects.filter(result='Accepted', user=request.user, problem=problem).exists():
+                    is_first_ac = False
+                else:
+                    is_first_ac = True
             status = Status.objects.create(result=result.get('result'),
-                                           time=result.get('time',0) if result.get('time',0)!='' else 0,
-                                           memory=result.get('memory', 0)if result.get('memory',0)!='' else 0,
+                                           time=result.get('time', 0) if result.get('time', 0) != '' else 0,
+                                           memory=result.get('memory', 0) if result.get('memory', 0) != '' else 0,
                                            code_length=result.get('code_length'),
                                            lang=result.get('lang'),
                                            # submit_time=result.get('submit_time'),
                                            user=request.user,
                                            problem=problem,
+                                           is_first_ac=is_first_ac,
+                                           is_first_submit=is_first,
                                            )
             status.save()
-            if status.result == "Accepted":
-                problem.accepted += 1
             problem.submitted += 1
-            problem.pass_rate = problem.accepted/problem.submitted*100
+            problem.pass_rate = problem.accepted / problem.submitted * 100
             problem.save()
             data = {
                 "status": "success",
@@ -147,9 +157,9 @@ def modify_category_difficulty(request):
                     break
 
         num = problem.participants
-        problem.difficulty = (num*problem.difficulty+difficulty)//(num+1)
+        problem.difficulty = (num * problem.difficulty + difficulty) // (num + 1)
         problem.save()
-        data ={
+        data = {
             "status": "success",
         }
         return JsonResponse(data=data)
@@ -169,6 +179,10 @@ def problem_category(request, slug):
 def problem_all_category(request):
     category_list = Category.objects.all()
     context = {
-        'category_list':category_list,
+        'category_list': category_list,
     }
     return render(request, 'problem_all_category.html', context=context)
+
+
+def problem_recommend(request):
+    return render(request, 'problem_recommend.html')

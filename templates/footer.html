@@ -1,27 +1,51 @@
 <!-----------------------尾部begin------------------------------>
-<footer id="index_footer">
-    <div class="container">
-        <div class="row pt-2 pb-1 d-flex justify-content-between align-items-center">
-            <div class="col-lg-4 d-none d-lg-block">
-                <div class="row d-flex justify-content-center align-items-center">
-                    <ul class="offset-lg-2 col-lg-4">
-                        <li><a href="{% url 'about' %}">关于我们</a></li>
-                    </ul>
-                </div>
+<footer id="index_footer" class="pt-2" style="border: 1px solid #eee">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6 ml-5">
+                <ul>
+                    <li>© 东华大学ACM题集与分析项目组 版权所有</li>
+                    <li class="text-muted small">
+                        <span>沪ICP备********号</span>
+                        <span> | </span>
+                        <span>沪公网安备********号</span>
+                    </li>
+                </ul>
             </div>
-            <div class="col-6 col-lg-5 d-none d-md-block text-center">
-                <h6>公司地址:上海市松江区松江大学城</h6>
-                <h6>联系电话:0598-88888888</h6>
-                <h6>地址邮箱: 123456@123.com</h6>
-            </div>
-            <div class="col-lg-3 text-center d-sm-block d-md-none d-lg-block">
-                <a href="{% url 'contact_us' %}">
-                    <h6 class="text-muted">联系我们:</h6>
-                    <img src="/static/img/weixin-h.png" width="40" class="mr-2" alt="">
-                    <img src="/static/img/xinlang-h.png" width="40" alt="">
-                </a>
+            <div class="offset-1 col-4 mr-5 d-flex justify-content-end align-items-end">
+                <ul>
+                    <li>
+                        <a href="{% url 'about' %}">关于我们</a>
+                        <span> | </span>
+                        <a href="{% url 'contact_us' %}">联系我们</a>
+                    </li>
+                    <li class="text-muted small d-flex align-items-center pull-right"
+                        style="font-family: 'Microsoft YaHei UI'">
+                        <img src="/static/img/cn.svg" height="16">
+                        <span>&ensp;Coding in China</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </footer>
 <!-----------------------尾部end-------------------------------->
+{#<div class="col-lg-4 d-none d-lg-block">#}
+{#    <div class="row d-flex justify-content-center align-items-center">#}
+{#        <ul class="offset-lg-2 col-lg-4">#}
+{#            <li><a href="{% url 'about' %}">关于我们</a></li>#}
+{#        </ul>#}
+{#    </div>#}
+{#</div>#}
+{#<div class="col-6 col-lg-5 d-none d-md-block text-center">#}
+{#    <h6>公司地址:上海市松江区松江大学城</h6>#}
+{#    <h6>联系电话:0598-88888888</h6>#}
+{#    <h6>地址邮箱: 123456@123.com</h6>#}
+{#</div>#}
+{#<div class="col-lg-3 text-center d-sm-block d-md-none d-lg-block">#}
+{#    <a href="{% url 'contact_us' %}">#}
+{#        <h6 class="text-muted">联系我们:</h6>#}
+{#        <img src="/static/img/weixin-h.png" width="40" class="mr-2" alt="">#}
+{#        <img src="/static/img/xinlang-h.png" width="40" alt="">#}
+{#    </a>#}
+{#</div>#}

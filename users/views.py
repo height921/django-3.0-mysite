@@ -29,14 +29,21 @@ def user_info(request):
     '''
     if request.user.is_authenticated:
         submission_num = Status.objects.filter(user=request.user).count()
-        ac_num = Status.objects.filter(user=request.user).values('user', 'problem__slug').distinct().count()
-        # 最近一个月的题目
+        ac_num = Status.objects.filter(user=request.user).values('problem__slug').distinct().count()
         nowadays = datetime.now()
         a_month = datetime.now() - timedelta(days=30)
+        if Status.objects.filter(user=request.user,is_first_submit=True).exists():
+            first_submit_time = Status.objects.get(user=request.user,is_first_submit=True).submit_time
+            if first_submit_time>a_month:
+                a_month=first_submit_time
+        print("first_submit_time",first_submit_time)
+        print(a_month)
         select = {'day': 'date(submit_time)'}
+        # 最近一个月的题目
         count_data = Status.objects. \
             filter(submit_time__range=(a_month, nowadays),user=request.user). \
-            extra(select=select).values('day').order_by("day").annotate(number=Count('submit_time'))
+            extra(select=select).\
+            values('day').order_by("day").annotate(number=Count('submit_time'))
         submit_x_list = []
         submit_y_list = []
         ac_y_list = []
@@ -46,7 +53,7 @@ def user_info(request):
             submit_x_list.append(str(i['day']))
             submit_y_list.append(i['number'])
         count_data = Status.objects. \
-            filter(submit_time__range=(a_month, nowadays), user=request.user,result='Accepted'). \
+            filter(submit_time__range=(a_month, nowadays), user=request.user,is_first_ac=True). \
             extra(select=select).values('day').order_by("day").annotate(number=Count('submit_time'))
         for i in count_data:
             ac_x_list.append(str(i['day']))
@@ -238,3 +245,19 @@ def check_email(request):
 
 def questionnaire(request):
     return render(request, 'questionnaire.html')
+
+
+def reset_pwd2(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            password = request.POST['new_password1']
+            if password == '':
+                render(request, 'reset_password2.html')
+            request.user.set_password(password)
+            request.user.save()
+            auth.authenticate(username=request.user.username, password=password)
+            auth.login(request, request.user)
+            return redirect(request.GET.get('from', reverse('home')))
+        return render(request, 'reset_password2.html')
+    else:
+        return render(request,'home.html',{})
