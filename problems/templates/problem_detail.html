@@ -258,10 +258,13 @@
                                 <div class="card1">
                                     <div class="card1-body">
                                         <small class="d-flex  justify-content-center align-items-center text-muted mb-1">请为此题标记标签</small>
-                                        <label class="check"> <input type="checkbox" name="category" value="数据结构"><span>数据结构</span></label>
-                                        <label class="check"> <input type="checkbox" name="category" value="二叉树"><span>二叉树</span></label>
-                                        <label class="check"> <input type="checkbox" name="category" value="双指针"><span>双指针</span></label>
-                                        <label class="check"> <input type="checkbox" name="category" value="回溯算法"><span>回溯算法</span></label>
+                                        {% for category in category_list %}
+                                        <label class="check"> <input type="checkbox" name="category" value="{{ category.title }}"><span>{{ category.title }}</span></label>
+                                        {% endfor %}
+                                        <label class="check"> <input type="checkbox" name="category" value="简单题"><span>简单题</span></label>
+                                        <label class="check"> <input type="checkbox" name="category" value="动态规划"><span>动态规划</span></label>
+                                        <label class="check"> <input type="checkbox" name="category" value="图论"><span>图论</span></label>
+                                        <label class="check"> <input type="checkbox" name="category" value="排序"><span>排序</span></label>
                                     </div>
                                 </div>
                             </div>

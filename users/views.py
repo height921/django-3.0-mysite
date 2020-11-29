@@ -12,6 +12,7 @@ from random import Random
 
 from django.utils.timezone import now
 
+from problems.models import Category
 from .forms import LoginForm, RegistrationForm, ForgetPasswordForm, ResetPassword
 from django.contrib import auth
 from django.urls import reverse
@@ -28,18 +29,31 @@ def user_info(request):
     查看用户信息
     '''
     if request.user.is_authenticated:
+        # 提交总数和ac总数
         submission_num = Status.objects.filter(user=request.user).count()
         ac_num = Status.objects.filter(user=request.user).values('problem__slug').distinct().count()
+
+        # 各个分类对应的做题数和ac数
+        category_x_list = []
+        category_y_submit_list = []
+        category_y_ac_list = []
+        category_list = Category.objects.all()
+        for category in category_list:
+            category_x_list.append(category.title)
+            category_y_submit_list.append(Status.objects.filter(user=request.user,problem__category=category).count())
+            category_y_ac_list.append(Status.objects.filter(user=request.user,
+                                                            problem__category=category, is_first_ac=True).count())
+        # 判断是返回一个月的数据还是从第一次提交开始算起
         nowadays = datetime.now()
         a_month = datetime.now() - timedelta(days=30)
+
         if Status.objects.filter(user=request.user,is_first_submit=True).exists():
             first_submit_time = Status.objects.get(user=request.user,is_first_submit=True).submit_time
             if first_submit_time>a_month:
                 a_month=first_submit_time
-        print("first_submit_time",first_submit_time)
-        print(a_month)
+
+        # 最近一个月的题目或者从第一次提交到现在的题目
         select = {'day': 'date(submit_time)'}
-        # 最近一个月的题目
         count_data = Status.objects. \
             filter(submit_time__range=(a_month, nowadays),user=request.user). \
             extra(select=select).\
@@ -58,7 +72,6 @@ def user_info(request):
         for i in count_data:
             ac_x_list.append(str(i['day']))
             ac_y_list.append(i['number'])
-        print('count_data',type(dict(count_data)))
         submit_index=0
         ac_index=0
         submit_x=[]
@@ -78,14 +91,15 @@ def user_info(request):
             else:
                 ac_y.append(0)
 
-        print(submit_x)
-        print(ac_y)
         context = {
             'submission_num': submission_num,
             'AC_num': ac_num,
             'submit_x_list': submit_x,
             'submit_y_list': submit_y,
             'AC_y_list': ac_y,
+            'category_x': category_x_list,
+            'category_y_submit': category_y_submit_list,
+            'category_y_AC': category_y_ac_list,
         }
         return render(request, 'user_info.html', context)
     else:

@@ -52,16 +52,16 @@
                             var myLineChart = new Chart(ctx, {
                                 type: 'radar',
                                 data: {
-                                    labels: ['Running', 'Swimming', 'Eating', 'Cycling', 'Skating', 'Singing', 'Balling'],
+                                    labels: {{ category_x|safe }},
                                     datasets: [{
-                                        data: [150, 164, 210, 195, 169, 184, 250],
-                                        label: "A Team",
+                                        data: {{ category_y_submit|safe }},
+                                        label: "提交数",
                                         borderColor: "#458af7",
                                         backgroundColor: '#458af7',
                                         fill: true
                                     }, {
-                                        data: [168, 170, 178, 190, 203, 276, 279],
-                                        label: "B Team",
+                                        data: {{ category_y_AC|safe }},
+                                        label: "AC数",
                                         borderColor: "#3cba9f",
                                         fill: true,
                                         backgroundColor: '#3cba9f'

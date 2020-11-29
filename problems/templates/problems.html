@@ -21,7 +21,10 @@
         <div class="row">
             <!-- 搜索框begin -->
             <div class="col-5 p-0 ml-5 mb-3 d-flex flex-wrap justify-content-between align-items-center">
-                <input type="text" class="form-control" placeholder="搜索题目 「名称、内容或编号」">
+                <FORM action="/problems/" method="get">
+                <input  name="search" type="text" class="form-control" placeholder="搜索题目 「名称、内容或编号」">
+                <input type=submit value=search class=button40>
+                </FORM>
             </div>
             <!-- 搜索框end -->
 
@@ -154,11 +157,31 @@
         <!-- 分页器begin -->
         <nav>
             <ul class="pagination mb-5">
-                <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" data-abc="true">«</a></li>
-                <li class="page-item active"><a class="page-link" href="javascript:void(0)" data-abc="true">1</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0)" data-abc="true">2</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0)" data-abc="true">3</a></li>
-                <li class="page-item"><a class="page-link" href="javascript:void(0)" data-abc="true">»</a></li>
+                <li class="page-item "><a class="page-link" href="/problems?search={{ search }}&&num={{lnum }}" data-abc="true">«</a></li>
+                {% for n in page_list %}
+
+                    {% if num == n %}
+                        <li class="page-item active">
+                            <a class="page-link" href="/problems?search={{ search }}&&num={{ n }}"
+                               data-abc="true">{{ n}}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item ">
+                            <a class="page-link" href="/problems?search={{ search }}&&num={{n }}"
+                               data-abc="true">{{ n }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="/problems?search={{ search }}&&num={{ rnum }}" data-abc="true">»</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="/problems?search={{ search }}&&num={{ rnum }}" data-abc="true">»</a>
+{#                    弹框提示，最后一页了。#}
+                </li>
+                {% endif %}
             </ul>
         </nav>
         <!-- 分页器end -->

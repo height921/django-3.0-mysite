@@ -18,6 +18,15 @@ class Category(models.Model):
         super(Category, self).save(*args, **kwargs)
 
 
+class SimpleCategory(models.Model):
+    title = models.CharField(max_length=255, verbose_name='类型')
+    vote_number = models.IntegerField(default=1, verbose_name="投票数")
+    problem = models.ForeignKey("Problem",on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+
 class Problem(models.Model):
     slug = models.SlugField(editable=False)
     problem_id = models.CharField(max_length=20, verbose_name='题目编号')

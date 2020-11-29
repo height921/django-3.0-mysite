@@ -11,5 +11,6 @@ urlpatterns = [
     path('category',views.problem_all_category, name='problem_all_category'),
     path('category/<slug:slug>', views.problem_category, name='problem_category'),
     path('modify_category_difficulty', views.modify_category_difficulty, name='modify_category_difficulty'),
-    path('/recommend', views.problem_recommend, name='problem_recommend'),
+    path('recommend', views.problem_recommend, name='problem_recommend'),
+    path('problem_add', views.problems_add, name='problem_add'),
 ]

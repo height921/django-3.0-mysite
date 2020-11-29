@@ -5,6 +5,7 @@
 from django import template
 from django.contrib.contenttypes.models import ContentType
 from status.models import Status
+from problems.models import SimpleCategory
 register = template.Library()
 
 
@@ -20,3 +21,4 @@ def get_status(context, obj):
             return 'fa-check fa-check-color'
         return 'fa-question fa-question-color'
     return ''
+
